@@ -69,15 +69,7 @@ $selectFiltroTipo.addEventListener("input", async () => {
   const textoBuscar = $inputTextoBuscar.value.trim();
 
   try {
-    const response = await axios.get(`https://gateway.marvel.com/v1/public/characters`, {
-      params: {
-        nameStartsWith: textoBuscar,
-        ts,
-        apikey: publicKey,
-        hash,
-        limit: 20,
-      },
-    });
+    const response = await axios.get(`https://gateway.marvel.com/v1/public/characters?ts=${ts}&apikey=${publicKey}&hash=${hash}`);
     console.log(response.data); 
     const personajes = response.data.data.results;
     pintarDatos(personajes);
@@ -150,3 +142,6 @@ function pintarDatos(datos) {
 // .then(response => response.json())
 // .then(data => console.log(data))
 // .catch(error => console.log(error))
+
+// {{baseUrl}}/characters/idCharacter?ts={{ts}}&hash={{hash}}
+// {{baseUrl}}/comics/idComic?ts={{ts}}&hash={{hash}}
