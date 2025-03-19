@@ -19,14 +19,7 @@ const $selectFiltroTipo = $("#select-filtro-tipo");
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await axios.get(`https://gateway.marvel.com/v1/public/comics`, {
-      params: {
-        limit: 25,        
-        ts,
-        apikey: publicKey,
-        hash,
-      },
-    });
+    const response = await axios.get(`https://gateway.marvel.com/v1/public/comics?ts=${ts}&apikey=${publicKey}&hash=${hash}`);
     console.log(response.data);
     const comics = response.data.data.results;
     pintarDatos(comics);
@@ -45,15 +38,7 @@ $botonBuscar.addEventListener("click", async () => {
   const textoBuscar = $inputTextoBuscar.value.trim();
 
   try {
-    const response = await axios.get(`https://gateway.marvel.com/v1/public/comics`, {
-      params: {
-        titleStartsWith: textoBuscar,
-        ts,
-        apikey: publicKey,
-        hash,
-        limit: 10, // Número máximo de resultados
-      },
-    });
+    const response = await axios.get(`https://gateway.marvel.com/v1/public/comics?titleStartsWith=${textoBuscar}&ts=${ts}&apikey=${publicKey}&hash=${hash}`);
     console.log(response.data);
     const comics = response.data.data.results;
     pintarDatos(comics);
@@ -80,7 +65,7 @@ $botonBuscar.addEventListener("click", async () => {
 
 /////////////////////// Buscar personaje ///////////////////////
 
-$selectFiltroTipo.addEventListener("click", async () => {
+$selectFiltroTipo.addEventListener("input", async () => {
   const textoBuscar = $inputTextoBuscar.value.trim();
 
   try {
@@ -90,7 +75,7 @@ $selectFiltroTipo.addEventListener("click", async () => {
         ts,
         apikey: publicKey,
         hash,
-        limit: 10, // Número máximo de resultados
+        limit: 20,
       },
     });
     console.log(response.data); 
