@@ -9,6 +9,10 @@ const $contenedorResultados = $("#contenedor-comics");
 const $selectFiltroTipo = $("#select-filtro-tipo");
 const $selectFiltroStatus = $("#select-filtro-status");
 const $selectFiltroGender = $("#select-filtro-gender");
+const $botonAnterior = $("#pagina-anterior");
+const $botonSiguiente = $("#pagina-siguiente");
+
+
 
 /////////////////////// Carga inicial con personajes aleatorios ///////////////////////
 document.addEventListener("DOMContentLoaded", async () => {
@@ -82,3 +86,34 @@ function pintarDatos(datos) {
       </div>`;
   }
 }
+
+
+
+
+let currentPage = 1;
+
+$botonSiguiente.addEventListener("click", () => {
+  currentPage += 1;
+  obtenerDatos(currentPage);
+});
+
+$botonAnterior.addEventListener("click", () => {
+    currentPage -= 1;
+    obtenerDatos(currentPage);
+});
+
+async function obtenerDatos(page) {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/character?page=${page}`);
+    const characters = response.data.results; // Extraemos los personajes de la respuesta
+    pintarDatos(characters); // Mostramos los personajes en la UI
+  } catch (error) {
+    console.error("Error al obtener los datos:", error);
+    $containerCards.innerHTML = `<p class="text-red-500">No se pudieron cargar los personajes.</p>`;
+  }
+}
+
+// Ejecutar la primera carga de datos al abrir la página
+window.onload = () => {
+  obtenerDatos(currentPage);
+};

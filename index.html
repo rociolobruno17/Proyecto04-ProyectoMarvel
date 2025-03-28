@@ -11,10 +11,10 @@
 
     <!-- HEADER -->
     <header>
-      <div class="h-24 bg-green-700 shadow-lg flex items-center justify-center">
-        <img src="./logo-rickandmorty.png" alt="Rick and Morty" class="w-64">
+      <div class="h-96 w-full bg-no-repeat bg-center bg-cover bg-[url('./banner.webp')]">
       </div>
-      <div class="h-96 w-full bg-no-repeat bg-center bg-cover bg-[url('./rickandmorty-bg.jpg')]">
+      <div class="h-24 bg-gray-900 shadow-lg flex items-center justify-center">
+        <img src="./logoRickandMorty.svg" alt="Rick and Morty" class="w-64">
       </div>
     </header>
 
@@ -72,6 +72,12 @@
             </div>
             <div id="contenedor-comics" class="flex flex-wrap justify-around"></div>
         </section>
+
+        <div id="contenedor-paginacion">
+          <button id="pagina-anterior">Pagina Anterior</button>
+          <button id="pagina-siguiente">Siguiente Pagina</button>
+        </div>
+
     </main>
     
     <script type="module" src="./main.js"></script>
