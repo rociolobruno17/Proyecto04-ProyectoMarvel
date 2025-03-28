@@ -4,7 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="loading.css" >
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/css-loader/3.3.3/loader-bar.css" ></script>
+
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
   <title>Rick and Morty Search</title>
 </head>
 <body class="bg-gray-100">
@@ -70,7 +74,9 @@
             <div class="text-center mt-8 mb-6">
                 <h1 class="text-3xl font-bold text-gray-800 xl:text-[30px]">Resultados</h1>
             </div>
-            <div id="contenedor-comics" class="flex flex-wrap justify-around"></div>
+            <div id="contenedor-resultados" class="flex flex-wrap justify-around"></div> 
+            <!-- <div class="loader"></div> -->
+
         </section>
 
         <div id="contenedor-paginacion" class="flex justify-center gap-4 mt-20 mb-10">
