@@ -88,6 +88,7 @@ function pintarDatos(datos) {
 }
 
 
+/////////////////////// Función para ir a pagina siguiente o pagina anterior ///////////////////////
 
 
 let currentPage = 1;
