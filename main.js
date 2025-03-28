@@ -1,129 +1,84 @@
 const $ = (element) => document.querySelector(element);
 const $$ = (element) => document.querySelectorAll(element);
 
-const ts = Date.now()
-const publicKey = `6f6d2c7a1abc8312a3b896f5c1ed2bb0`
-const privateKey = `28bca8a637892d214f58b3969dbf9eed377aaa09`
-const hash = md5(`${ts}${privateKey}${publicKey}`)
-
+const API_BASE_URL = "https://rickandmortyapi.com/api";
 
 const $inputTextoBuscar = $("#texto-buscar");
 const $botonBuscar = $("#boton-buscar");
-const $contenedorComics = $("#contenedor-comics");
+const $contenedorResultados = $("#contenedor-comics");
 const $selectFiltroTipo = $("#select-filtro-tipo");
+const $selectFiltroStatus = $("#select-filtro-status");
+const $selectFiltroGender = $("#select-filtro-gender");
 
-
-
-/////////////////////// Evento para que aparezcan comics ni bien se carga la pagina ///////////////////////
-
-
+/////////////////////// Carga inicial con personajes aleatorios ///////////////////////
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await axios.get(`https://gateway.marvel.com/v1/public/comics?ts=${ts}&apikey=${publicKey}&hash=${hash}`);
-    console.log(response.data);
-    const comics = response.data.data.results;
-    pintarDatos(comics);
-  } catch (error) {
-    console.error("Error al cargar cómics aleatorios:", error);
-  }
-});
-
-
-/////////////////////// Buscar comic ///////////////////////
-
-$botonBuscar.addEventListener("click", async () => {
-  const textoBuscar = $inputTextoBuscar.value.trim();
-
-  try {
-    const response = await axios.get(`https://gateway.marvel.com/v1/public/comics?titleStartsWith=${textoBuscar}&ts=${ts}&apikey=${publicKey}&hash=${hash}`);
-    console.log(response.data);
-    const comics = response.data.data.results;
-    pintarDatos(comics);
-  } catch (error) {
-    console.error("Error en la búsqueda de cómics:", error);
-  }
-});
-
-
-/////////////////////// Buscar personaje ///////////////////////
-
-$selectFiltroTipo.addEventListener("input", async () => {
-  const textoBuscar = $inputTextoBuscar.value.trim();
-
-  try {
-    const response = await axios.get(`https://gateway.marvel.com/v1/public/characters?ts=${ts}&apikey=${publicKey}&hash=${hash}`);
-    console.log(response.data); 
-    const personajes = response.data.data.results;
+    const response = await axios.get(`${API_BASE_URL}/character`);
+    const personajes = response.data.results;
     pintarDatos(personajes);
   } catch (error) {
-    console.error("Error en la búsqueda de personajes:", error);
+    console.error("Error al cargar personajes aleatorios:", error);
   }
 });
 
+/////////////////////// Buscar personajes o episodios ///////////////////////
+$botonBuscar.addEventListener("click", async () => {
+  const textoBuscar = $inputTextoBuscar.value.trim();
+  const tipoBusqueda = $selectFiltroTipo.value;
+  let url = "";
 
-///////////////// Función para pintar datos de busqueda ///////////////////////
+  if (tipoBusqueda === "episodios") {
+    url = `${API_BASE_URL}/episode/?name=${textoBuscar}`;
+  } else {
+    url = `${API_BASE_URL}/character/?name=${textoBuscar}`;
+  }
 
-function pintarDatos(datos) {
-  $contenedorComics.innerHTML = "";
-  for (const item of datos) {
-    const imageUrl = `${item.thumbnail.path}.${item.thumbnail.extension}`;
-    $contenedorComics.innerHTML += `
-      <div class="flex flex-wrap justify-around">
-        <div class="m-4 p-4 bg-white rounded-lg shadow-md">
-          <img src="${imageUrl}" alt="${item.title || item.name}" class="w-full h-64 object-cover rounded-lg">
-          <h3 class="mt-2 text-lg font-semibold">${item.title || item.name}</h3>
-        </div>
-      </div>`;
+  try {
+    const response = await axios.get(url);
+    const resultados = response.data.results;
+    pintarDatos(resultados);
+  } catch (error) {
+    console.error("Error en la búsqueda:", error);
+    $contenedorResultados.innerHTML = `<p class="text-red-500">No se encontraron resultados.</p>`;
+  }
+});
+
+/////////////////////// Filtrar personajes por status y gender ///////////////////////
+$selectFiltroStatus.addEventListener("change", aplicarFiltros);
+$selectFiltroGender.addEventListener("change", aplicarFiltros);
+
+async function aplicarFiltros() {
+  const status = $selectFiltroStatus.value;
+  const gender = $selectFiltroGender.value;
+  let url = `${API_BASE_URL}/character/?`;
+
+  if (status !== "all") url += `status=${status}&`;
+  if (gender !== "all") url += `gender=${gender}`;
+
+  try {
+    const response = await axios.get(url);
+    const personajes = response.data.results;
+    pintarDatos(personajes);
+  } catch (error) {
+    console.error("Error al filtrar personajes:", error);
+    $contenedorResultados.innerHTML = `<p class="text-red-500">No se encontraron resultados.</p>`;
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-// $botonBuscar.addEventListener("click", () => {
-//      const textoBuscar = $inputTextoBuscar.value.trim();
-//      if (!textoBuscar) return alert("Por favor, ingresa un nombre para buscar.");
+/////////////////////// Función para pintar los datos ///////////////////////
+function pintarDatos(datos) {
+  $contenedorResultados.innerHTML = "";
   
-//      fetch(`https://gateway.marvel.com/v1/public/comics?titleStartsWith=${textoBuscar}&ts=${ts}&apikey=${publicKey}&hash=${hash}`)
-//        .then(response => response.json())
-//        .then(data => {
-//          console.log(data); // Ver los resultados en la consola
-//          const comics = data.data.results;
-//          pintarDatos(comics);
-//        })
-//        .catch(error => console.error("Error en la búsqueda de cómics:", error));
-//    });
-  
+  for (const item of datos) {
+    const imageUrl = item.image ? item.image : "https://via.placeholder.com/200";
+    const name = item.name || "Desconocido";
+    const subtitle = item.episode ? `Episodios: ${item.episode.length}` : `Estado: ${item.status}`;
 
-
-//    function pintarDatos(comics) {
-//      $contenedorComics.innerHTML = "";
-//      for (const comic of comics) {
-//        const imageUrl = `${comic.thumbnail.path}.${comic.thumbnail.extension}`;
-//        $contenedorComics.innerHTML += `
-//        <div class="flex flex-wrap justify-around">
-//          <div class="m-4 p-4 bg-white rounded-lg shadow-md">
-//            <img src="${imageUrl}" alt="${comic.title}" class="w-full h-64 object-cover rounded-lg">
-//            <h3 class="mt-2 text-lg font-semibold">${comic.title}</h3>
-//          </div>
-//          </div>`;
-//      }
-//    }
-
-
-
-
-// fetch(`https://gateway.marvel.com/v1/public/characters?ts=${ts}&apikey=${publicKey}&hash=${hash}`)
-// .then(response => response.json())
-// .then(data => console.log(data))
-// .catch(error => console.log(error))
-
-// {{baseUrl}}/characters/idCharacter?ts={{ts}}&hash={{hash}}
-// {{baseUrl}}/comics/idComic?ts={{ts}}&hash={{hash}}
+    $contenedorResultados.innerHTML += `
+      <div class="m-4 p-4 bg-white rounded-lg shadow-md">
+        <img src="${imageUrl}" alt="${name}" class="w-full h-64 object-cover rounded-lg">
+        <h3 class="mt-2 text-lg font-semibold">${name}</h3>
+        <p class="text-gray-600">${subtitle}</p>
+      </div>`;
+  }
+}
