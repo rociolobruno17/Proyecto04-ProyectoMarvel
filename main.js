@@ -29,9 +29,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 
-
-
-
 /////////////////////// Buscar comic ///////////////////////
 
 $botonBuscar.addEventListener("click", async () => {
@@ -46,21 +43,6 @@ $botonBuscar.addEventListener("click", async () => {
     console.error("Error en la búsqueda de cómics:", error);
   }
 });
-
-// /////////////////////// Resultado de comic buscado ///////////////////////
-// function pintarDatos(comics) {
-//   $contenedorComics.innerHTML = "";
-//   for (const comic of comics) {
-//     const imageUrl = `${comic.thumbnail.path}.${comic.thumbnail.extension}`;
-//     $contenedorComics.innerHTML += `
-//       <div class="flex flex-wrap justify-around">
-//         <div class="m-4 p-4 bg-white rounded-lg shadow-md">
-//           <img src="${imageUrl}" alt="${comic.title}" class="w-full h-64 object-cover rounded-lg">
-//           <h3 class="mt-2 text-lg font-semibold">${comic.title}</h3>
-//         </div>
-//       </div>`;
-//   }
-// }
 
 
 /////////////////////// Buscar personaje ///////////////////////
