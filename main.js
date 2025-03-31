@@ -114,23 +114,69 @@ async function aplicarFiltros() {
   }
 }
 
-/////////////////////// Función para pintar los datos ///////////////////////
+// /////////////////////// Función para pintar los datos ///////////////////////
+// function pintarDatos(datos) {
+//   $contenedorResultados.innerHTML = "";
+  
+//   for (const item of datos) {
+//     const imageUrl = item.image ? item.image : "https://via.placeholder.com/200";
+//     const name = item.name || "Desconocido";
+//     const subtitle = item.episode ? `Episodios: ${item.episode.length}` : `Estado: ${item.status}`;
+
+//     $contenedorResultados.innerHTML += `
+//       <div class="m-4 p-4 bg-white rounded-lg shadow-md">
+//         <img src="${imageUrl}" alt="${name}" class="w-full h-64 object-cover rounded-lg">
+//         <h3 class="mt-2 text-lg font-semibold">${name}</h3>
+//         <p class="text-gray-600">${subtitle}</p>
+//       </div>`;
+//   }
+// }
+
+// /////////////////////// Función para pintar los datos diferenciando entre episodio y personaje ///////////////////////
+
+
 function pintarDatos(datos) {
   $contenedorResultados.innerHTML = "";
-  
-  for (const item of datos) {
-    const imageUrl = item.image ? item.image : "https://via.placeholder.com/200";
-    const name = item.name || "Desconocido";
-    const subtitle = item.episode ? `Episodios: ${item.episode.length}` : `Estado: ${item.status}`;
 
-    $contenedorResultados.innerHTML += `
-      <div class="m-4 p-4 bg-white rounded-lg shadow-md">
-        <img src="${imageUrl}" alt="${name}" class="w-full h-64 object-cover rounded-lg">
-        <h3 class="mt-2 text-lg font-semibold">${name}</h3>
-        <p class="text-gray-600">${subtitle}</p>
-      </div>`;
+  for (const item of datos) {
+    const isCharacter = item.hasOwnProperty("image"); // Verificamos si es un personaje
+
+    if (isCharacter) {
+      // Pintar datos para personajes (con imagen)
+      const imageUrl = item.image ? item.image : "https://via.placeholder.com/200";
+      const name = item.name || "Desconocido";
+      const status = item.status || "Estado desconocido";
+      const species = item.species || "Especie desconocida";
+
+      $contenedorResultados.innerHTML += `
+        <div class="m-12 p-4 bg-white rounded-lg shadow-md">
+          <img src="${imageUrl}" alt="${name}" class="w-full h-64 object-cover rounded-lg">
+          <h3 class="mt-4 text-3xl font-bold text-gray-800">${name}</h3>
+          <p class="text-gray-600">Estado: ${status}</p>
+          <p class="text-gray-600">Especie: ${species}</p>
+        </div>`;
+    } else {
+      // Pintar datos para episodios (sin imagen)
+      const name = item.name || "Desconocido";
+      const episodeCode = item.episode || "Código no disponible";
+      const airDate = item.air_date || "Fecha no disponible";
+
+      $contenedorResultados.innerHTML += `
+        <div class="m-12 p-4 bg-white rounded-lg shadow-md">
+          <h3 class="text-3xl font-bold text-gray-800">${name}</h3>
+          <p class="text-gray-600">Episodio: ${episodeCode}</p>
+          <p class="text-gray-600">Fecha de emisión: ${airDate}</p>
+        </div>`;
+    }
   }
 }
+
+
+
+
+
+
+
 
 
 /////////////////////// Evento para ir a pagina siguiente o pagina anterior ///////////////////////
