@@ -55,12 +55,12 @@ $botonBuscar.addEventListener("click", async () => {
 
   try {
 
-    $contenedorResultados.innerHTML = `<div class="loader"></div>`
-    $contenedorResultados.innerHTML = ``
-
 
     const response = await axios.get(url);
     const resultados = response.data.results;
+
+    $contenedorResultados.innerHTML = ``
+
     pintarDatos(resultados);
   } catch (error) {
     console.error("Error en la búsqueda:", error);
