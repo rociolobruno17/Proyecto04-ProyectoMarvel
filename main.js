@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const response = await axios.get(`${API_BASE_URL}/character`);
     const personajes = response.data.results;
     pintarDatos(personajes);
-  } catch (error) {
 
+  } catch (error) {
     $contenedorResultados.innerHTML = ``
 
     console.error("Error al cargar personajes aleatorios:", error);
@@ -55,7 +55,9 @@ $botonBuscar.addEventListener("click", async () => {
 
   try {
 
+    $contenedorResultados.innerHTML = `<div class="loader"></div>`
     $contenedorResultados.innerHTML = ``
+
 
     const response = await axios.get(url);
     const resultados = response.data.results;
@@ -63,7 +65,18 @@ $botonBuscar.addEventListener("click", async () => {
   } catch (error) {
     console.error("Error en la búsqueda:", error);
     $contenedorResultados.innerHTML = ``
-    $contenedorResultados.innerHTML = `<p class="text-red-500">No se encontraron resultados.</p>`;
+    $contenedorResultados.innerHTML = `<div class="flex items-center justify-center gap-4 p-6">
+      <img src="./error.png" alt="Error" class="w-96 h-96 object-contain">
+      <div>
+        <h1 class="text-6xl font-black text-gray-800 xl:text-[40px]">OOPS...</h1>
+        <p class="text-3xl font-bold text-gray-800 xl:text-[20px]">Parece que falta algo :(</p>
+        <p class="text-xl font-light text-gray-800 xl:text-[20px]">Es posible que haya escrito mal la búsqueda o que la página se haya movido</p>
+        <div class="flex gap-4 mt-4 text-xs text-gray-800 w-96 justify-start">
+          <button class="px-6 py-2 border border-green-500 text-green-500 font-semibold rounded-lg shadow-sm hover:bg-green-500 hover:text-white focus:outline-none transition">Volver al inicio</button>
+          <button class="hover:underline eliminar-boton">Contactar con soporte</button>
+          </div>
+      </div>
+    </div>`;
   }
 });
 
@@ -84,8 +97,20 @@ async function aplicarFiltros() {
     const personajes = response.data.results;
     pintarDatos(personajes);
   } catch (error) {
-    console.error("Error al filtrar personajes:", error);
-    $contenedorResultados.innerHTML = `<p class="text-red-500">No se encontraron resultados.</p>`;
+    console.error("Error en la búsqueda:", error);
+    $contenedorResultados.innerHTML = ``
+    $contenedorResultados.innerHTML = `<div class="flex items-center justify-center gap-4 p-6">
+      <img src="./error.png" alt="Error" class="w-96 h-96 object-contain">
+      <div>
+        <h1 class="text-6xl font-black text-gray-800 xl:text-[40px]">OOPS...</h1>
+        <p class="text-3xl font-bold text-gray-800 xl:text-[20px]">Parece que falta algo :(</p>
+        <p class="text-xl font-light text-gray-800 xl:text-[20px]">Es posible que haya escrito mal la búsqueda o que la página se haya movido</p>
+        <div class="flex gap-4 mt-4 text-xs text-gray-800 w-96 justify-start">
+          <button class="px-6 py-2 border border-green-500 text-green-500 font-semibold rounded-lg shadow-sm hover:bg-green-500 hover:text-white focus:outline-none transition">Volver al inicio</button>
+          <button class="hover:underline eliminar-boton">Contactar con soporte</button>
+          </div>
+      </div>
+    </div>`;
   }
 }
 
@@ -140,8 +165,20 @@ async function obtenerDatos(page) {
     const datos = response.data.results;
     pintarDatos(datos);
   } catch (error) {
-    console.error("Error al obtener datos:", error);
-    $contenedorResultados.innerHTML = `<p class="text-red-500">No se encontraron resultados.</p>`;
+    console.error("Error en la búsqueda:", error);
+    $contenedorResultados.innerHTML = ``
+    $contenedorResultados.innerHTML = `<div class="flex items-center justify-center gap-4 p-6">
+      <img src="./error.png" alt="Error" class="w-96 h-96 object-contain">
+      <div>
+        <h1 class="text-6xl font-black text-gray-800 xl:text-[40px]">OOPS...</h1>
+        <p class="text-3xl font-bold text-gray-800 xl:text-[20px]">Parece que falta algo :(</p>
+        <p class="text-xl font-light text-gray-800 xl:text-[20px]">Es posible que haya escrito mal la búsqueda o que la página se haya movido</p>
+        <div class="flex gap-4 mt-4 text-xs text-gray-800 w-96 justify-start">
+          <button class="px-6 py-2 border border-green-500 text-green-500 font-semibold rounded-lg shadow-sm hover:bg-green-500 hover:text-white focus:outline-none transition">Volver al inicio</button>
+          <button class="hover:underline eliminar-boton">Contactar con soporte</button>
+          </div>
+      </div>
+    </div>`;
   }
 }
 
