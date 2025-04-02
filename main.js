@@ -13,6 +13,13 @@ const $botonAnterior = $("#pagina-anterior");
 const $botonSiguiente = $("#pagina-siguiente");
 const $contenedorPaginacion = $("#contenedor-paginacion");
 
+const $detallePersonaje= $("#detalle-personaje");
+const $cerrarDetalle= $("#cerrar-detalle");
+const $detalleContenido= $("#detalle-contenido");
+
+
+
+
 let paginaActual = 1;
 let filtroActual = "character"; // Por defecto, busca personajes
 
@@ -139,24 +146,23 @@ function pintarDatos(datos) {
   $contenedorResultados.innerHTML = "";
 
   for (const item of datos) {
-    const isCharacter = item.hasOwnProperty("image"); // Verificamos si es un personaje
+    const isCharacter = item.hasOwnProperty("image");
 
     if (isCharacter) {
-      // Pintar datos para personajes (con imagen)
       const imageUrl = item.image ? item.image : "https://via.placeholder.com/200";
       const name = item.name || "Desconocido";
       const status = item.status || "Estado desconocido";
       const species = item.species || "Especie desconocida";
 
       $contenedorResultados.innerHTML += `
-        <div class="m-12 p-4 bg-white rounded-lg shadow-md">
+        <div class="m-12 p-4 bg-white rounded-lg shadow-md cursor-pointer character-card" data-id="${item.id}">
           <img src="${imageUrl}" alt="${name}" class="w-full h-64 object-cover rounded-lg">
           <h3 class="mt-4 text-3xl font-bold text-gray-800">${name}</h3>
           <p class="text-gray-600">Estado: ${status}</p>
           <p class="text-gray-600">Especie: ${species}</p>
         </div>`;
     } else {
-      // Pintar datos para episodios (sin imagen)
+      // Si es un episodio
       const name = item.name || "Desconocido";
       const episodeCode = item.episode || "Código no disponible";
       const airDate = item.air_date || "Fecha no disponible";
@@ -169,6 +175,14 @@ function pintarDatos(datos) {
         </div>`;
     }
   }
+
+  // Agregar evento de clic a los personajes
+  document.querySelectorAll(".character-card").forEach(card => {
+    card.addEventListener("click", async (event) => {
+      const characterId = event.currentTarget.dataset.id;
+      mostrarDetalle(characterId);
+    });
+  });
 }
 
 
@@ -227,6 +241,39 @@ async function obtenerDatos(page) {
     </div>`;
   }
 }
+
+
+async function mostrarDetalle(id) {
+  $contenedorResultados.style.display = "none"; // Oculta los resultados
+  $detallePersonaje.style.display = "block"; // Muestra los detalles
+  try {
+    const response = await axios.get(`${API_BASE_URL}/character/${id}`);
+    const character = response.data;
+
+    $detalleContenido.innerHTML = `
+      <div class="text-center">
+        <img src="${character.image}" alt="${character.name}" class="w-40 h-40 rounded-full mx-auto">
+        <h2 class="text-3xl font-bold mt-4">${character.name}</h2>
+        <p class="text-gray-600"><strong>Especie:</strong> ${character.species}</p>
+        <p class="text-gray-600"><strong>Origen:</strong> ${character.origin.name}</p>
+        <p class="text-gray-600"><strong>Ubicación:</strong> ${character.location.name}</p>
+      </div>
+    `;
+
+    // Mostrar el contenedor de detalles
+  $detallePersonaje.style.display = "block"
+    
+  } catch (error) {
+    console.error("Error al obtener detalles del personaje:", error);
+  }
+}
+
+$cerrarDetalle.addEventListener("click", () => {
+  $detallePersonaje.style.display = "none";
+  $contenedorResultados.style.display = "block"; 
+});
+
+
 
 // Cargar datos al inicio
 window.onload = () => {
