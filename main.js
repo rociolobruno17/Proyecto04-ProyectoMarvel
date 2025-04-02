@@ -243,13 +243,51 @@ async function obtenerDatos(page) {
 }
 
 
+// async function mostrarDetalle(id) {
+//   $contenedorResultados.style.display = "none"; // Oculta los resultados
+//   $detallePersonaje.style.display = "block"; // Muestra los detalles
+
+
+//   try {
+//     const response = await axios.get(`${API_BASE_URL}/character/${id}`);
+//     const character = response.data;
+
+//     $detalleContenido.innerHTML = `
+//       <div class="text-center">
+//         <img src="${character.image}" alt="${character.name}" class="w-40 h-40 rounded-full mx-auto">
+//         <h2 class="text-3xl font-bold mt-4">${character.name}</h2>
+//         <p class="text-gray-600"><strong>Especie:</strong> ${character.species}</p>
+//         <p class="text-gray-600"><strong>Origen:</strong> ${character.origin.name}</p>
+//         <p class="text-gray-600"><strong>Ubicación:</strong> ${character.location.name}</p>
+//       </div>
+//     `;
+    
+
+//     // Mostrar el contenedor de detalles
+//   $detallePersonaje.style.display = "block"
+
+    
+//   } catch (error) {
+//     console.error("Error al obtener detalles del personaje:", error);
+//   }
+// }
+
+// $cerrarDetalle.addEventListener("click", () => {
+//   $detallePersonaje.style.display = "none";
+//   $contenedorResultados.style.display = "block"; 
+// });
+
+
+
 async function mostrarDetalle(id) {
   $contenedorResultados.style.display = "none"; // Oculta los resultados
   $detallePersonaje.style.display = "block"; // Muestra los detalles
+
   try {
     const response = await axios.get(`${API_BASE_URL}/character/${id}`);
     const character = response.data;
 
+    // Construir HTML inicial con la info del personaje
     $detalleContenido.innerHTML = `
       <div class="text-center">
         <img src="${character.image}" alt="${character.name}" class="w-40 h-40 rounded-full mx-auto">
@@ -257,20 +295,39 @@ async function mostrarDetalle(id) {
         <p class="text-gray-600"><strong>Especie:</strong> ${character.species}</p>
         <p class="text-gray-600"><strong>Origen:</strong> ${character.origin.name}</p>
         <p class="text-gray-600"><strong>Ubicación:</strong> ${character.location.name}</p>
+        <h3 class="text-xl font-semibold mt-6">Episodios en los que aparece:</h3>
+        <ul id="lista-episodios" class="mt-2 text-gray-700">Cargando episodios...</ul>
+        <button id="cerrarDetalle" class="mt-4 px-4 py-2 bg-red-500 text-white rounded">Volver</button>
       </div>
     `;
 
-    // Mostrar el contenedor de detalles
-  $detallePersonaje.style.display = "block"
-    
+    // Obtener los episodios
+    const arrayPromises = character.episode.map(url => axios.get(url));
+    const responseEpisodes = await Promise.all(arrayPromises);
+    const arrayDetailEpisode = responseEpisodes.map(ep => ep.data);
+
+    // Insertar episodios en la lista
+    const listaEpisodios = document.getElementById("lista-episodios");
+    listaEpisodios.innerHTML = ""; // Limpiar mensaje de "Cargando episodios..."
+
+    arrayDetailEpisode.forEach(ep => {
+      const li = document.createElement("li");
+      li.textContent = `${ep.episode} - ${ep.name} (Fecha: ${ep.air_date})`;
+      listaEpisodios.appendChild(li);
+    });
+
   } catch (error) {
     console.error("Error al obtener detalles del personaje:", error);
+    document.getElementById("lista-episodios").innerHTML = "No se pudieron cargar los episodios.";
   }
 }
 
-$cerrarDetalle.addEventListener("click", () => {
-  $detallePersonaje.style.display = "none";
-  $contenedorResultados.style.display = "block"; 
+// Evento para cerrar el detalle y volver a la lista
+document.addEventListener("click", (event) => {
+  if (event.target.id === "cerrarDetalle") {
+    $detallePersonaje.style.display = "none";
+    $contenedorResultados.style.display = "block";
+  }
 });
 
 
