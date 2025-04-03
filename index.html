@@ -35,15 +35,19 @@
                 <!-- Filtro de Tipo -->
                 <select id="select-filtro-tipo"
                     class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <option value="personajes">Personajes</option>                     
                     <option value="episodios">Episodios</option>             
-                    <option value="personajes">Personajes</option>                    
+                  
 
                 </select>            
+                 <!-- Botón de Buscar -->
+                <button id="boton-buscar" type="button"
+                    class="px-6 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-sm hover:bg-gray-100 hover:text-gray-700 focus:outline-none">
+                    Buscar
+                </button>          
             </div>
 
             <div class="flex flex-wrap gap-4 items-center justify-center">
-
-                
                 <!-- Filtro Status (solo para personajes) -->
                 <select id="select-filtro-status"
                     class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
@@ -63,11 +67,7 @@
                     <option value="unknown">Desconocido</option>
                 </select>
                 
-                <!-- Botón de Buscar -->
-                <button id="boton-buscar" type="button"
-                    class="px-6 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-sm hover:bg-gray-100 hover:text-gray-700 focus:outline-none">
-                    Buscar
-                </button>
+
             </div>
         </section>
 
@@ -79,19 +79,15 @@
         </section>
 
         <!-- SECTION DETALLE DE CADA PERSONAJE -->
-
         <section id="detalle-personaje" class="hidden p-8 bg-white shadow-lg max-w-xl mx-auto mt-12 rounded-lg">
-            <button id="cerrar-detalle" class="mb-4 px-4 py-2 bg-red-500 text-white rounded-lg">Volver</button>
             <div id="detalle-contenido"></div>
         </section>
 
 
 
         <!-- SECTION DETALLE DE CADA episodio -->
-
         <section id="detalle-episodio" class="hidden p-8 bg-white shadow-lg max-w-xl mx-auto mt-12 rounded-lg">
-            <button id="cerrar-episodio" class="mb-4 px-4 py-2 bg-red-500 text-white rounded-lg">Volver</button>
-             <div id="detalle-episodio"></div>
+             <div id="detalle-contenido-episodio"></div>
         </section>
 
 

@@ -14,8 +14,10 @@ const $botonSiguiente = $("#pagina-siguiente");
 const $contenedorPaginacion = $("#contenedor-paginacion");
 
 const $detallePersonaje= $("#detalle-personaje");
-const $cerrarDetalle= $("#cerrar-detalle");
 const $detalleContenido= $("#detalle-contenido");
+
+const $detalleEpisodio= $("#detalle-episodio"); 
+const $detalleContenidoEpisodio= $("#detalle-contenido-episodio");
 
 
 
@@ -72,6 +74,7 @@ $botonBuscar.addEventListener("click", async () => {
   } catch (error) {
     console.error("Error en la búsqueda:", error);
     $contenedorResultados.innerHTML = ``
+    $contenedorPaginacion.innerHTML = ``
     $contenedorResultados.innerHTML = `<div class="flex items-center justify-center gap-4 p-6">
       <img src="./error.png" alt="Error" class="w-96 h-96 object-contain">
       <div>
@@ -106,6 +109,7 @@ async function aplicarFiltros() {
   } catch (error) {
     console.error("Error en la búsqueda:", error);
     $contenedorResultados.innerHTML = ``
+    $contenedorPaginacion.innerHTML = ``
     $contenedorResultados.innerHTML = `<div class="flex items-center justify-center gap-4 p-6">
       <img src="./error.png" alt="Error" class="w-96 h-96 object-contain">
       <div>
@@ -121,27 +125,8 @@ async function aplicarFiltros() {
   }
 }
 
-// /////////////////////// Función para pintar los datos ///////////////////////
-// function pintarDatos(datos) {
-//   $contenedorResultados.innerHTML = "";
-  
-//   for (const item of datos) {
-//     const imageUrl = item.image ? item.image : "https://via.placeholder.com/200";
-//     const name = item.name || "Desconocido";
-//     const subtitle = item.episode ? `Episodios: ${item.episode.length}` : `Estado: ${item.status}`;
-
-//     $contenedorResultados.innerHTML += `
-//       <div class="m-4 p-4 bg-white rounded-lg shadow-md">
-//         <img src="${imageUrl}" alt="${name}" class="w-full h-64 object-cover rounded-lg">
-//         <h3 class="mt-2 text-lg font-semibold">${name}</h3>
-//         <p class="text-gray-600">${subtitle}</p>
-//       </div>`;
-//   }
-// }
 
 // /////////////////////// Función para pintar los datos diferenciando entre episodio y personaje ///////////////////////
-
-
 function pintarDatos(datos) {
   $contenedorResultados.innerHTML = "";
 
@@ -168,11 +153,11 @@ function pintarDatos(datos) {
       const airDate = item.air_date || "Fecha no disponible";
 
       $contenedorResultados.innerHTML += `
-        <div class="m-12 p-4 bg-white rounded-lg shadow-md">
-          <h3 class="text-3xl font-bold text-gray-800">${name}</h3>
-          <p class="text-gray-600">Episodio: ${episodeCode}</p>
-          <p class="text-gray-600">Fecha de emisión: ${airDate}</p>
-        </div>`;
+      <div class="m-12 p-4 bg-white rounded-lg shadow-md cursor-pointer episode-card" data-id="${item.id}">
+        <h3 class="text-3xl font-bold text-gray-800">${name}</h3>
+        <p class="text-gray-600">Episodio: ${episodeCode}</p>
+        <p class="text-gray-600">Fecha de emisión: ${airDate}</p>
+      </div>`;
     }
   }
 
@@ -183,7 +168,24 @@ function pintarDatos(datos) {
       mostrarDetalle(characterId);
     });
   });
+
+  // Agregar evento de clic a los episodios
+  document.querySelectorAll(".episode-card").forEach(card => {
+    card.addEventListener("click", async (event) => {
+      const episodeId = event.currentTarget.dataset.id;
+      mostrarDetalleEpisodio(episodeId);
+    });
+  });
+
 }
+
+  // // Agregar evento de clic a los episodios
+  // document.querySelectorAll(".episode-card").forEach(card => {
+  //   card.addEventListener("click", async (event) => {
+  //     const episodeId = event.currentTarget.dataset.id;
+  //     mostrarDetalleEpisodio(episodeId);
+  //   });
+  // });
 
 
 
@@ -240,7 +242,7 @@ async function obtenerDatos(page) {
     const datos = response.data.results;
     pintarDatos(datos);
   } catch (error) {
-    console.error("Error en la búsqueda:", error);
+
     $contenedorResultados.innerHTML = ``
     $contenedorResultados.innerHTML = `<div class="flex items-center justify-center gap-4 p-6">
       <img src="./error.png" alt="Error" class="w-96 h-96 object-contain">
@@ -254,6 +256,7 @@ async function obtenerDatos(page) {
           </div>
       </div>
     </div>`;
+    
   }
 }
 
@@ -296,6 +299,7 @@ async function obtenerDatos(page) {
 
 async function mostrarDetalle(id) {
   $contenedorResultados.style.display = "none"; // Oculta los resultados
+  $contenedorPaginacion.style.display = "none";
   $detallePersonaje.style.display = "block"; // Muestra los detalles
 
   try {
@@ -334,6 +338,8 @@ async function mostrarDetalle(id) {
   } catch (error) {
     console.error("Error al obtener detalles del personaje:", error);
     document.getElementById("lista-episodios").innerHTML = "No se pudieron cargar los episodios.";
+    
+    
   }
 }
 
@@ -345,6 +351,112 @@ document.addEventListener("click", (event) => {
   }
 });
 
+
+
+
+// async function mostrarDetalleEpisodio(id) {
+//   $contenedorResultados.style.display = "none"; // Oculta los resultados
+//   $contenedorPaginacion.style.display = "none";
+//   $detalleEpisodio.style.display = "block"; // Muestra la sección de detalles
+
+//   try {
+//     const response = await axios.get(`${API_BASE_URL}/episode/${id}`);
+//     const episode = response.data;
+
+//     // Construimos el HTML con los datos del episodio
+//     $detalleContenidoEpisodio.innerHTML = `
+//       <div class="text-center">
+//         <h2 class="text-3xl font-bold">${episode.name}</h2>
+//         <p class="text-gray-600"><strong>Episodio:</strong> ${episode.episode}</p>
+//         <p class="text-gray-600"><strong>Fecha de emisión:</strong> ${episode.air_date}</p>
+//         <h3 class="text-xl font-semibold mt-6">Personajes en este episodio:</h3>
+//         <div id="lista-personajes-episodio" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">Cargando personajes...</div>
+//         <button id="cerrarDetalleEpisodio" class="mt-4 px-4 py-2 bg-red-500 text-white rounded">Volver</button>
+//       </div>
+//     `;
+
+//     // Obtener los personajes del episodio
+//     const arrayPromises = episode.characters.map(url => axios.get(url));
+//     const responseCharacters = await Promise.all(arrayPromises);
+//     const characters = responseCharacters.map(c => c.data);
+
+//     // Insertar personajes en la lista
+//     const listaPersonajes = document.getElementById("lista-personajes-episodio");
+//     listaPersonajes.innerHTML = ""; // Limpiar mensaje de "Cargando personajes..."
+
+//     characters.forEach(character => {
+//       listaPersonajes.innerHTML += `
+//         <div class="text-center bg-gray-100 p-2 rounded-lg">
+//           <img src="${character.image}" alt="${character.name}" class="w-20 h-20 mx-auto rounded-full">
+//           <p class="text-gray-800 mt-2">${character.name}</p>
+//         </div>
+//       `;
+//     });
+
+//   } catch (error) {
+//     console.error("Error al obtener los detalles del episodio:", error);
+//     document.getElementById("lista-personajes-episodio").innerHTML = "No se pudieron cargar los personajes.";
+//   }
+// }
+
+// // Evento para cerrar el detalle y volver a la lista
+// document.addEventListener("click", (event) => {
+//   if (event.target.id === "cerrarDetalleEpisodio") {
+//     $detalleEpisodio.style.display = "none";
+//     $contenedorResultados.style.display = "block";
+//   }
+// });
+
+async function mostrarDetalleEpisodio(episodeId) {
+  $contenedorResultados.style.display = "none"; // Oculta los resultados
+  $contenedorPaginacion.style.display = "none";
+  $detalleEpisodio.style.display = "block"; // Muestra los detalles
+
+  try {
+    // Obtener los detalles del episodio
+    const response = await axios.get(`${API_BASE_URL}/episode/${episodeId}`);
+    const episode = response.data;
+
+    // Obtener los personajes del episodio
+    const characters = await Promise.all(
+      episode.characters.map(url => axios.get(url).then(res => res.data))
+    );
+
+    // Construir HTML con detalles del episodio y personajes
+    $detalleContenidoEpisodio.innerHTML = `
+      <h2 class="text-3xl font-bold text-gray-800">${episode.name}</h2>
+      <p class="text-gray-600">Episodio: ${episode.episode}</p>
+      <p class="text-gray-600">Fecha de emisión: ${episode.air_date}</p>
+      <h3 class="mt-4 text-2xl font-bold text-gray-800">Personajes:</h3>
+      <div class="grid grid-cols-2 gap-4 mt-4">
+        ${characters
+          .map(character => `
+            <div class="p-2 bg-gray-200 rounded-lg flex items-center">
+              <img src="${character.image}" alt="${character.name}" class="w-12 h-12 rounded-full">
+              <p class="ml-2 text-gray-800">${character.name}</p>
+            </div>
+          `)
+          .join("")}
+                        <button id="cerrarDetalleEpisodio" class="mt-4 px-4 py-2 bg-red-500 text-white rounded">Volver</button>
+      </div>
+    `;
+
+    // Mostrar la sección de detalles
+    $detalleEpisodio.classList.remove("hidden");
+
+  } catch (error) {
+    console.error("Error al obtener detalles del episodio:", error);
+    $detalleContenidoEpisodio.innerHTML = `<p class="text-red-500">No se pudo cargar la información del episodio.</p>`;
+  }
+}
+
+// Evento para cerrar el detalle y volver a la lista
+document.addEventListener("click", (event) => {
+  if (event.target.id === "cerrarDetalleEpisodio") {
+    $detalleEpisodio.style.display = "none";
+    $contenedorResultados.style.display = "block";
+  }
+});
 
 
 // Cargar datos al inicio
