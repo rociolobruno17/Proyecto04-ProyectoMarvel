@@ -29,18 +29,20 @@
                 <h1 class="text-3xl font-bold text-gray-800 xl:text-[40px]">Búsqueda</h1>
             </div>
             
-            <div class="flex items-center justify-center mb-4">
+            <div class="flex items-center justify-center mb-4 gap-4">
                 <input id="texto-buscar" type="text" placeholder="Buscar personajes..."
                     class="w-full max-w-md px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-            </div>
-
-            <div class="flex flex-wrap gap-4 items-center justify-center">
                 <!-- Filtro de Tipo -->
                 <select id="select-filtro-tipo"
                     class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-                    <option value="episodios">Episodios</option>
-                    <option value="personajes">Personajes</option>
-                </select>
+                    <option value="episodios">Episodios</option>             
+                    <option value="personajes">Personajes</option>                    
+
+                </select>            
+            </div>
+
+            <div class="flex flex-wrap gap-4 items-center justify-center">
+
                 
                 <!-- Filtro Status (solo para personajes) -->
                 <select id="select-filtro-status"

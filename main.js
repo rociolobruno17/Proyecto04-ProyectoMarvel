@@ -197,23 +197,38 @@ function pintarDatos(datos) {
 
 
 // Evento para cambiar el tipo de búsqueda (Personajes o Episodios)
+// $selectFiltroTipo.addEventListener("change", () => {
+//   filtroActual = $selectFiltroTipo.value === "episodios" ? "episode" : "character";
+//   paginaActual = 1; // Reiniciar a la primera página cuando se cambia el tipo
+//   obtenerDatos(paginaActual);
+// });
+
+// // Eventos de paginación
+// $botonSiguiente.addEventListener("click", () => {
+//   paginaActual += 1;
+//   obtenerDatos(paginaActual);
+// });
+
+// $botonAnterior.addEventListener("click", () => {
+//   if (paginaActual > 1) {
+//     paginaActual -= 1;
+//     obtenerDatos(paginaActual);
+//   }
+// });
+
 $selectFiltroTipo.addEventListener("change", () => {
   filtroActual = $selectFiltroTipo.value === "episodios" ? "episode" : "character";
   paginaActual = 1; // Reiniciar a la primera página cuando se cambia el tipo
-  obtenerDatos(paginaActual);
-});
 
-// Eventos de paginación
-$botonSiguiente.addEventListener("click", () => {
-  paginaActual += 1;
-  obtenerDatos(paginaActual);
-});
-
-$botonAnterior.addEventListener("click", () => {
-  if (paginaActual > 1) {
-    paginaActual -= 1;
-    obtenerDatos(paginaActual);
+  if (filtroActual === "episode") {
+    $selectFiltroStatus.style.display = "none";
+    $selectFiltroGender.style.display = "none";
+  } else {
+    $selectFiltroStatus.style.display = "block";
+    $selectFiltroGender.style.display = "block";
   }
+
+  obtenerDatos(paginaActual);
 });
 
 ///////////////////////// Función para obtener datos de personajes o episodios ///////////////////////
