@@ -2,7 +2,7 @@ const $ = (element) => document.querySelector(element);
 const $$ = (element) => document.querySelectorAll(element);
 
 const API_BASE_URL = "https://rickandmortyapi.com/api";
-
+const $sectionBuscar = $("#section-buscar");
 const $inputTextoBuscar = $("#texto-buscar");
 const $botonBuscar = $("#boton-buscar");
 const $contenedorResultados = $("#contenedor-resultados");
@@ -231,7 +231,21 @@ $selectFiltroTipo.addEventListener("change", () => {
   }
 
   obtenerDatos(paginaActual);
+
 });
+
+  // // Eventos de paginación
+  $botonSiguiente.addEventListener("click", () => {
+    paginaActual += 1;
+    obtenerDatos(paginaActual);
+  });
+ 
+  $botonAnterior.addEventListener("click", () => {
+    if (paginaActual > 1) {
+      paginaActual -= 1;
+      obtenerDatos(paginaActual);
+    }
+ });
 
 ///////////////////////// Función para obtener datos de personajes o episodios ///////////////////////
 async function obtenerDatos(page) {
@@ -300,6 +314,7 @@ async function obtenerDatos(page) {
 async function mostrarDetalle(id) {
   $contenedorResultados.style.display = "none"; // Oculta los resultados
   $contenedorPaginacion.style.display = "none";
+  $sectionBuscar.style.display = "none";
   $detallePersonaje.style.display = "block"; // Muestra los detalles
 
   try {
@@ -335,24 +350,19 @@ async function mostrarDetalle(id) {
       listaEpisodios.appendChild(li);
     });
 
+    // Agregar evento al botón "Volver"
+    document.getElementById("cerrarDetalle").addEventListener("click", () => {
+      $detallePersonaje.style.display = "none"; // Oculta detalles
+      $sectionBuscar.style.display = "block"; // Muestra el buscador
+      $contenedorResultados.style.display = "block"; // Muestra los resultados
+      $contenedorPaginacion.style.display = "block"; // Muestra la paginación
+    });
+
   } catch (error) {
     console.error("Error al obtener detalles del personaje:", error);
     document.getElementById("lista-episodios").innerHTML = "No se pudieron cargar los episodios.";
-    
-    
   }
 }
-
-// Evento para cerrar el detalle y volver a la lista
-document.addEventListener("click", (event) => {
-  if (event.target.id === "cerrarDetalle") {
-    $detallePersonaje.style.display = "none";
-    $contenedorResultados.style.display = "block";
-  }
-});
-
-
-
 
 // async function mostrarDetalleEpisodio(id) {
 //   $contenedorResultados.style.display = "none"; // Oculta los resultados
@@ -410,6 +420,7 @@ document.addEventListener("click", (event) => {
 async function mostrarDetalleEpisodio(episodeId) {
   $contenedorResultados.style.display = "none"; // Oculta los resultados
   $contenedorPaginacion.style.display = "none";
+  $sectionBuscar.style.display = "none";
   $detalleEpisodio.style.display = "block"; // Muestra los detalles
 
   try {
@@ -443,20 +454,23 @@ async function mostrarDetalleEpisodio(episodeId) {
 
     // Mostrar la sección de detalles
     $detalleEpisodio.classList.remove("hidden");
+// Evento para cerrar el detalle y volver a la lista
+document.addEventListener("click", (event) => {
+  if (event.target.id === "cerrarDetalleEpisodio") {
+    $detalleEpisodio.style.display = "none";
+    $sectionBuscar.style.display = "block";
+    $contenedorResultados.style.display = "block";
+    $contenedorPaginacion.style.display = "block";
 
+  }
+});
   } catch (error) {
     console.error("Error al obtener detalles del episodio:", error);
     $detalleContenidoEpisodio.innerHTML = `<p class="text-red-500">No se pudo cargar la información del episodio.</p>`;
   }
 }
 
-// Evento para cerrar el detalle y volver a la lista
-document.addEventListener("click", (event) => {
-  if (event.target.id === "cerrarDetalleEpisodio") {
-    $detalleEpisodio.style.display = "none";
-    $contenedorResultados.style.display = "block";
-  }
-});
+
 
 
 // Cargar datos al inicio
