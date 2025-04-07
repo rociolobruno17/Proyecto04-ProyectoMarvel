@@ -13,62 +13,67 @@
 </head>
 <body class="bg-gray-100">
 
-    <!-- HEADER -->
-    <header>
-   
-         <div class="flex flex-col items-center justify-start h-screen w-full bg-no-repeat bg-center bg-cover bg-[url('./banner2.jpg')]">
-         <img src="./logoRickandMorty.svg" alt="Rick and Morty" class="w-96 m-10">       
+<!-- HEADER -->
+<header>
+    <div id="imagen-principal"
+      class="flex flex-col items-center justify-start w-full h-[60vh] sm:h-[70vh] bg-no-repeat bg-center bg-cover bg-[url('./banner2.jpg')] px-4">
+      <img src="./logoRickandMorty.svg" alt="Rick and Morty" class="w-60 sm:w-72 md:w-80 lg:w-96 my-6" />
+    </div>
+  </header>
+  
+  <main>
+    <!-- SECTION BUSCADOR -->
+    <section id="section-buscar" class="max-w-6xl mx-auto p-4">
+      <!-- Título -->
+      <div class="text-center mt-6 mb-4">
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800">Búsqueda</h1>
+      </div>
+  
+      <!-- Buscador + filtro tipo + botón -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+        <input id="texto-buscar" type="text" placeholder="Ingresa aquí lo que deseas buscar..."
+          class="w-full sm:max-w-md px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+  
+        <select id="select-filtro-tipo"
+          class="w-full sm:w-auto px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+          <option value="personajes">Personajes</option>
+          <option value="episodios">Episodios</option>
+        </select>
+  
+        <button id="boton-buscar" type="button"
+          class="w-full sm:w-auto px-6 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-sm hover:bg-gray-100 hover:text-gray-700 transition-colors">
+          Buscar
+        </button>
+      </div>
+  
+      <!-- Filtros extra: Status y Gender -->
+      <div id="section-buscar" class="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-4 text-sm">
+        <!-- Status -->
+        <div  class="flex items-center gap-2">
+          <label for="select-filtro-status" class="hidden text-gray-700">Filtrar por estado:</label>
+          <select id="select-filtro-status"
+            class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500">
+            <option value="">Estado</option>
+            <option value="alive">Vivo</option>
+            <option value="dead">Muerto</option>
+            <option value="unknown">Desconocido</option>
+          </select>
         </div>
-    </header>
-
-    <main>
-        <!-- SECTION BUSCADOR -->
-        <section id="section-buscar" class="max-w-4xl mx-auto p-4">
-            <div class="text-center mt-8 mb-6">
-                <h1 class="text-3xl font-bold text-gray-800 xl:text-[40px]">Búsqueda</h1>
-            </div>
-            
-            <div class="flex items-center justify-center mb-4 gap-4">
-                <input id="texto-buscar" type="text" placeholder="Ingresa aquí lo que deseas buscar..."
-                    class="w-full max-w-md px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-                <!-- Filtro de Tipo -->
-                <select id="select-filtro-tipo"
-                    class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-                    <option value="personajes">Personajes</option>                     
-                    <option value="episodios">Episodios</option>             
-                  
-
-                </select>            
-                 <!-- Botón de Buscar -->
-                <button id="boton-buscar" type="button"
-                    class="px-6 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-sm hover:bg-gray-100 hover:text-gray-700 focus:outline-none">
-                    Buscar
-                </button>          
-            </div>
-
-            <div class="flex flex-wrap gap-4 items-center justify-center">
-                <!-- Filtro Status (solo para personajes) -->
-                <select id="select-filtro-status"
-                    class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-                    <option value="">Todos los Status</option>
-                    <option value="alive">Vivo</option>
-                    <option value="dead">Muerto</option>
-                    <option value="unknown">Desconocido</option>
-                </select>
-                
-                <!-- Filtro Gender (solo para personajes) -->
-                <select id="select-filtro-gender"
-                    class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-                    <option value="">Todos los Géneros</option>
-                    <option value="male">Masculino</option>
-                    <option value="female">Femenino</option>
-                    <option value="genderless">Sin Género</option>
-                    <option value="unknown">Desconocido</option>
-                </select>
-                
-
-            </div>
-        </section>
+  
+        <!-- Gender -->
+        <div class="flex items-center gap-2">
+          <label for="select-filtro-gender" class="hidden text-gray-700">Filtrar por género:</label>
+          <select id="select-filtro-gender"
+            class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500">
+            <option value="">Género</option>
+            <option value="female">Femenino</option>
+            <option value="male">Masculino</option>
+            <option value="genderless">Sin Género</option>
+            <option value="unknown">Desconocido</option>
+          </select>
+        </div>
+      </div>
+    </section>
 
         <!-- SECTION RESULTADOS DE BÚSQUEDA -->
 
