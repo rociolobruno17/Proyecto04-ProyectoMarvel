@@ -60,16 +60,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   await mostrarPersonajesAleatorios();
 });
 
+    // Evento para volver al inicio
 document.addEventListener("click", (event) => {
   if (event.target.id === "volverInicio") {
     console.log("Volviendo al inicio...");
     $detallePersonaje.style.display = "none";
     $detalleEpisodio.style.display = "none";
-    $contenedorResultados.style.display = "block";
+    $contenedorResultados.style.display = "flex";
     $sectionBuscar.style.display = "block";
     $contenedorPaginacion.style.display = "block";
 
-    mostrarPersonajesAleatorios(); // <-- esta línea ya es suficiente
+    mostrarPersonajesAleatorios();
     
   }
 });
@@ -324,7 +325,7 @@ async function mostrarDetalle(id) {
     document.getElementById("cerrarDetalle").addEventListener("click", () => {
       $detallePersonaje.style.display = "none"; // Oculta detalles
       $sectionBuscar.style.display = "block"; // Muestra el buscador
-      $contenedorResultados.style.display = "block"; // Muestra los resultados
+      $contenedorResultados.style.display = "flex"; // Muestra los resultados
       $contenedorPaginacion.style.display = "block"; // Muestra la paginación
 
     });
@@ -355,13 +356,16 @@ async function mostrarDetalleEpisodio(episodeId) {
     );
 
     // Construir HTML con detalles del episodio y personajes
-    $detalleContenidoEpisodio.innerHTML = `
-          <button id="cerrarDetalleEpisodio" class="flex flex-col item-start m-2 p-2 text-2xl font-black bg-green-500 text-white rounded"> ← </button>
+    $detalleContenidoEpisodio.innerHTML = ` 
+      <div class="flex flex-col items-center justify-center gap-4 mt-4">
+              <button id="cerrarDetalleEpisodio" class="flex item-start m-2 p-2 text-2xl font-black bg-green-500 text-white rounded"> ← </button>
+
       <h2 class="text-3xl font-bold text-gray-800">${episode.name}</h2>
       <p class="text-gray-600">Episodio: ${episode.episode}</p>
       <p class="text-gray-600">Fecha de emisión: ${episode.air_date}</p>
       <h3 class="mt-4 text-2xl font-bold text-gray-800">Personajes:</h3>
-      <div class="grid grid-cols-2 gap-4 mt-4">
+        </div>
+      <div class="flex flex-wrap items-center justify-center gap-4 mt-4">
         ${characters.map(character => `
             <div class="p-2 bg-gray-200 rounded-lg flex items-center">
               <img src="${character.image}" alt="${character.name}" class="w-12 h-12 rounded-full">
@@ -378,7 +382,7 @@ async function mostrarDetalleEpisodio(episodeId) {
       if (event.target.id === "cerrarDetalleEpisodio") {
          $detalleEpisodio.style.display = "none";
          $sectionBuscar.style.display = "block";
-         $contenedorResultados.style.display = "block";
+         $contenedorResultados.style.display = "flex";
          $contenedorPaginacion.style.display = "block";
      }
 });
