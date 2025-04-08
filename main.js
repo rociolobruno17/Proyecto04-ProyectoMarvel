@@ -68,7 +68,7 @@ document.addEventListener("click", (event) => {
     $detalleEpisodio.style.display = "none";
     $contenedorResultados.style.display = "flex";
     $sectionBuscar.style.display = "block";
-    $contenedorPaginacion.style.display = "block";
+    $contenedorPaginacion.style.display = "flex";
 
     mostrarPersonajesAleatorios();
     
@@ -309,17 +309,29 @@ async function mostrarDetalle(id) {
     const listaEpisodios = document.getElementById("lista-episodios");
     listaEpisodios.innerHTML = ""; // Limpiar mensaje de "Cargando episodios..."
 
-    arrayDetailEpisode.forEach(ep => {
+    arrayDetailEpisode.forEach(episode => {
       const card = document.createElement("div");
-      card.className = " m-8 p-4 bg-white rounded-lg shadow-md transform transition duration-300 hover:scale-105";
+      card.className = "cursor-pointer m-8 p-4 bg-white rounded-lg shadow-md transform transition duration-300 hover:scale-105";
       card.innerHTML = `
-        <h4 class="text-lg font-semibold text-gray-800">${ep.name}</h4>
-        <p class="text-gray-600">Episodio: ${ep.episode}</p>
-        <p class="text-gray-600">Fecha de emisión: ${ep.air_date}</p>
+        <h4 class="text-lg font-semibold text-gray-800">${episode.name}</h4>
+        <p class="text-gray-600">Episodio: ${episode.episode}</p>
+        <p class="text-gray-600">Fecha de emisión: ${episode.air_date}</p>
       `;
+    
+      // Agregar listener para redirigir al detalle del episodio
+      card.addEventListener("click", () => {
+        mostrarDetalleEpisodio(episode.id); // Usamos el ID del episodio
+            
+    // Mostrar la sección de detalles de epidosio
+    $detalleEpisodio.style.display = "block";
+    // Ocultar la sección de detalles de personaje
+    $detallePersonaje.style.display = "none";
+      });
+      
     
       listaEpisodios.appendChild(card);
     });
+
 
     // Agregar evento al botón "Volver"
     document.getElementById("cerrarDetalle").addEventListener("click", () => {
