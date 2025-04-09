@@ -379,13 +379,21 @@ async function mostrarDetalleEpisodio(episodeId) {
         </div>
       <div class="flex flex-wrap items-center justify-center gap-4 mt-4">
         ${characters.map(character => `
-            <div class="p-2 bg-gray-200 rounded-lg flex items-center">
-              <img src="${character.image}" alt="${character.name}" class="w-12 h-12 rounded-full">
-              <p class="ml-2 text-gray-800">${character.name}</p>
+            <div class="personaje-episodio cursor-pointer p-2 bg-gray-200 rounded-lg flex items-center" data-id="${character.id}">
+            <img src="${character.image}" alt="${character.name}" class="w-12 h-12 rounded-full">
+            <p class="ml-2 text-gray-800">${character.name}</p>
             </div>`)
           .join("")}
       </div>`;
-
+      
+// Agregar evento a cada personaje para mostrar su detalle
+document.querySelectorAll(".personaje-episodio").forEach(personajeCard => {
+  personajeCard.addEventListener("click", () => {
+    const characterId = personajeCard.getAttribute("data-id");
+    $detalleEpisodio.style.display = "none";
+    mostrarDetalle(characterId); // Llama a la función de detalle del personaje
+  });
+});
     // Mostrar la sección de detalles
     $detalleEpisodio.style.display = "block";
 
