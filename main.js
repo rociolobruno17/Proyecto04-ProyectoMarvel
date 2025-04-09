@@ -28,7 +28,6 @@ let paginaActual = 1;
 let filtroActual = "character"; // Por defecto, busca personajes
 
 
-
 ////////////////////////////////////////////// Carga inicial con personajes aleatorios ///////////////////////
 
 async function mostrarPersonajesAleatorios() {
@@ -143,9 +142,11 @@ $botonBuscar.addEventListener("click", async () => {
   } catch (error) {
     $contenedorResultados.innerHTML = ``,
 
+    $sectionBuscar.style.display = "block"; // Muestra el buscador
+    $contenedorPaginacion.style.display = "none"; // Muestra la paginación
     $contenedorResultados.innerHTML = `
       <div class="flex items-center justify-center gap-4 p-6">
-        <img src="./error.png" alt="Error" class="w-96 h-96 object-contain">
+        <img src="./error2.gif" alt="Error" class="w-96 h-96 object-contain">
         <div>
           <h1 class="text-6xl font-black text-gray-800 xl:text-[40px]">OOPS...</h1>
           <p class="text-3xl font-bold text-gray-800 xl:text-[20px]">Parece que falta algo :(</p>
@@ -209,17 +210,9 @@ function pintarDatos(datos) {
       const name = item.name || "Desconocido";
 
       $contenedorResultados.innerHTML += `
-      <div class="relative group m-4 p-4 bg-white rounded-lg shadow-lg cursor-pointer character-card transform transition duration-300" data-id="${item.id}">
+      <div class="relative m-4 pb-4  bg-white rounded-lg shadow-lg cursor-pointer character-card transform transition-transform duration-300 hover:scale-110" data-id="${item.id}">
         <img src="${imageUrl}" alt="${name}" class="w-full h-96 object-cover rounded-lg">
-    
-        <!-- Overlay que aparece al hacer hover -->
-        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg">
-          <button class="text-white bg-green-500 hover:bg-green-700 px-4 py-2 rounded-full text-lg font-semibold transition">
-            Ver más
-          </button>
-        </div>
-    
-        <h3 class="mt-4 text-3xl font-bold text-gray-800">${name}</h3>
+        <h3 class="mt-4 pl-4 text-3xl font-bold text-gray-800">${name}</h3>
       </div>
     `;
 

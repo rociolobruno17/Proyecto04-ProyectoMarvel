@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="./loading.css" >
   <script src="https://cdnjs.cloudflare.com/ajax/libs/css-loader/3.3.3/loader-bar.css" ></script>
@@ -13,22 +16,22 @@
 
   <title>Rick and Morty Search</title>
 </head>
-<body class="bg-gray-100">
+<body>
 
 <!-- HEADER -->
 <header>
     <div id="imagen-principal"
-      class="flex flex-col items-center justify-start w-full h-[60vh] sm:h-[70vh] bg-no-repeat bg-center bg-cover bg-[url('./banner2.jpg')] px-4">
+      class="flex flex-col items-center justify-start w-full h-[60vh] sm:h-[70vh] bg-no-repeat bg-center bg-cover bg-[url('./gif.gif')] px-4">
       <img src="./logoRickandMorty.svg" alt="Rick and Morty" class="w-60 git checkoutsm:w-72 md:w-80 lg:w-96 my-6" />
     </div>
   </header>
   
-  <main>
+  <main class="bg-gradient-to-r from-green-700 via-green-500 to-lime-500">
     <!-- SECTION BUSCADOR -->
     <section id="section-buscar" class="max-w-6xl mx-auto p-4">
       <!-- Título -->
-      <div class="text-center mt-6 mb-4">
-        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800">Búsqueda</h1>
+      <div class="font-mono text-center mt-6 mb-4">
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl text-white font-bold tracking-wide">Un fan project para explorar personajes y episodios</h1> 
       </div>
   
       <!-- Buscador + filtro tipo + botón -->
@@ -42,8 +45,8 @@
           <option value="episodios">Episodios</option>
         </select>
   
-        <button id="boton-buscar" type="button"
-          class="w-full sm:w-auto px-6 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-sm hover:bg-gray-100 hover:text-gray-700 transition-colors">
+        <button id="boton-buscar" type="button" 
+          class="w-full sm:w-auto px-6 px-6 py-2 bg-gray-100 text-gray-700 font-semibold rounded-lg shadow-sm hover:bg-green-500 hover:text-white focus:outline-none">
           Buscar
         </button>
       </div>
@@ -111,8 +114,27 @@
             Siguiente →</button>
         </div>
 
+<footer class="bg-green-500  text-white py-10">
+  <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="text-center md:text-left">
+      <h2 class="text-2xl font-bold tracking-wide font-mono">Rick & Morty por Rocio Lobruno</h2>
+      <p class="text-sm mt-1 opacity-80">Un fan project para explorar personajes y episodios</p>
+    </div>
+    <div class="flex space-x-4">
+      <a href="#" class="hover:text-lime-300 transition-colors">Inicio</a>
+      <a href="#" class="hover:text-lime-300 transition-colors">Personajes</a>
+      <a href="#" class="hover:text-lime-300 transition-colors">Episodios</a>
+    </div>
+  </div>
+  <div class="mt-4 text-center text-xs opacity-60">
+    © 2025 Rick & Morty Fan Wiki — No oficial
+  </div>
+</footer>
+
 
     </main>
+
+    
     
     <script type="module" src="./main.js"></script>
 </body>
