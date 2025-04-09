@@ -427,9 +427,16 @@ document.querySelectorAll(".personaje-episodio").forEach(personajeCard => {
 
 
 
-// Cargar datos al inicio
-window.onload = () => {
-  obtenerDatos(paginaActual);
+// // Cargar datos al inicio
+// window.onload = () => {
+//   obtenerDatos(paginaActual);
 
   
+// };
+
+window.onload = async () => {
+  
+  await obtenerDatos(paginaActual);
+
+
 };
