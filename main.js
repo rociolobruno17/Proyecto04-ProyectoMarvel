@@ -282,13 +282,13 @@ async function mostrarDetalle(id) {
     // Construir HTML inicial con la info del personaje
     $detalleContenido.innerHTML = `
       <div class="text-center ">
-      <button id="cerrarDetalle" class="flex flex-col item-start m-2 p-2 text-2xl font-black bg-green-500 text-white rounded"> ← </button>
+      <button id="cerrarDetalle" class="flex flex-col item-start m-2 p-2 text-2xl font-black bg-white text-gray-700 rounded  shadow-sm hover:bg-green-500 hover:text-white focus:outline-none"> ← </button>
         <img src="${character.image}" alt="${character.name}" class="w-40 h-40 rounded-full mx-auto">
-        <h2 class="text-3xl font-bold mt-4">${character.name}</h2>
-        <p class="text-gray-600"><strong>Especie:</strong> ${character.species}</p>
-        <p class="text-gray-600"><strong>Origen:</strong> ${character.origin.name}</p>
-        <p class="text-gray-600"><strong>Ubicación:</strong> ${character.location.name}</p>
-        <h3 class="text-xl font-semibold mt-6">Episodios en los que aparece:</h3>
+        <h2 class="text-white font-mono text-3xl font-bold mt-4">${character.name}</h2>
+        <p class="text-white font-mono"><strong>Especie:</strong> ${character.species}</p>
+        <p class="text-white font-mono"><strong>Origen:</strong> ${character.origin.name}</p>
+        <p class="text-white font-mono"><strong>Ubicación:</strong> ${character.location.name}</p>
+        <h3 class="text-white font-mono text-xl font-semibold mt-6">Episodios en los que aparece:</h3>
         <ul id="lista-episodios" class="mt-2 text-gray-700">Cargando episodios...</ul>
       </div>
     `;
@@ -362,19 +362,18 @@ async function mostrarDetalleEpisodio(episodeId) {
 
     // Construir HTML con detalles del episodio y personajes
     $detalleContenidoEpisodio.innerHTML = ` 
-      <div class="flex flex-col items-center justify-center gap-4 mt-4">
-              <button id="cerrarDetalleEpisodio" class="flex item-start m-2 p-2 text-2xl font-black bg-green-500 text-white rounded"> ← </button>
-
-      <h2 class="text-3xl font-bold text-gray-800">${episode.name}</h2>
-      <p class="text-gray-600">Episodio: ${episode.episode}</p>
-      <p class="text-gray-600">Fecha de emisión: ${episode.air_date}</p>
-      <h3 class="mt-4 text-2xl font-bold text-gray-800">Personajes:</h3>
+      <div class="text-center ">
+              <button id="cerrarDetalleEpisodio" class="flex flex-col item-start m-2 p-2 text-2xl font-black bg-white text-gray-700 rounded  shadow-sm hover:bg-green-500 hover:text-white focus:outline-none"> ← </button>
+      <h2 class="text-white font-mono text-3xl font-bold">${episode.name}</h2>
+      <p class="text-white font-mono">Episodio: ${episode.episode}</p>
+      <p class="text-white font-mono">Fecha de emisión: ${episode.air_date}</p>
+      <h3 class="text-white font-mono mt-4 text-2xl font-bold ">Personajes:</h3>
         </div>
-      <div class="flex flex-wrap items-center justify-center gap-4 mt-4">
+      <div class="flex flex-col items-center justify-center gap-4 mt-4 ">
         ${characters.map(character => `
-            <div class="personaje-episodio cursor-pointer p-2 bg-gray-200 rounded-lg flex items-center" data-id="${character.id}">
-            <img src="${character.image}" alt="${character.name}" class="w-12 h-12 rounded-full">
-            <p class="ml-2 text-gray-800">${character.name}</p>
+            <div class="flex items-center personaje-episodio w-64 cursor-pointer m-4 p-4 bg-white rounded-lg shadow-md transform transition duration-300 hover:scale-105 p-2 bg-white rounded-lg" data-id="${character.id}">
+            <img src="${character.image}" alt="${character.name}" class="w-24 h-24 rounded-full">
+            <p class="m-6 font-mono text-1xl font-bold">${character.name}</p>
             </div>`)
           .join("")}
       </div>`;
