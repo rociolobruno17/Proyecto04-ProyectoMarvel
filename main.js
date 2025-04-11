@@ -21,15 +21,10 @@ const $detalleContenido= $("#detalle-contenido");
 const $detalleEpisodio= $("#detalle-episodio"); 
 const $detalleContenidoEpisodio= $("#detalle-contenido-episodio");
 
-
-
-
 let paginaActual = 1;
 let filtroActual = "character"; // Por defecto, busca personajes
 
-
-
-////////////////////////////////////////////// animacion de bienvenida ///////////////////////
+////////////////////////////////////////////// Animacion de bienvenida ///////////////////////
 setTimeout(() => {
   const gif = document.getElementById("overlay-gif");
   if (gif) gif.style.display = "none";
@@ -55,7 +50,7 @@ async function mostrarPersonajesAleatorios() {
       
     <div class="relative min-h-screen flex flex-col md:flex-row items-start justify-start mt-24 px-4 py-4 text-white rounded-lg md:space-y-6 md:space-x-6">
 
-      <img src="./error2.gif" alt="Error" class="w-64 h-64 md:w-80 md:h-80 object-contain" />
+      <img src="./gif/error1.gif" alt="Error" class="w-64 h-64 md:w-80 md:h-80 object-contain" />
 
       <div class="max-w-md text-center md:text-left space-y-2">
         <h1 class="text-4xl font-extrabold tracking-wide">¡OOPS!</h1>
@@ -75,11 +70,12 @@ async function mostrarPersonajesAleatorios() {
     </div>`;
   }
 }
+
+////////////////////////////////////////////// Evento para volver al inicio //////////////////////////////////////////////
+
 document.addEventListener("DOMContentLoaded", async () => {
   await mostrarPersonajesAleatorios();
 });
-
-    // Evento para volver al inicio
 document.addEventListener("click", (event) => {
   if (event.target.id === "volverInicio") {
     console.log("Volviendo al inicio...");
@@ -90,7 +86,6 @@ document.addEventListener("click", (event) => {
     $contenedorPaginacion.style.display = "flex";
 
     mostrarPersonajesAleatorios();
-    
   }
 });
 
@@ -127,7 +122,7 @@ async function obtenerDatos(page) {
       
     <div class="relative min-h-screen flex flex-col md:flex-row items-start justify-start mt-24 px-4 py-4 text-white rounded-lg md:space-y-6 md:space-x-6">
 
-      <img src="./error2.gif" alt="Error" class="w-64 h-64 md:w-80 md:h-80 object-contain" />
+      <img src="./gif/error2.gif" alt="Error" class="w-64 h-64 md:w-80 md:h-80 object-contain" />
 
       <div class="max-w-md text-center md:text-left space-y-2">
         <h1 class="text-4xl font-extrabold tracking-wide">¡OOPS!</h1>
@@ -186,7 +181,7 @@ $botonBuscar.addEventListener("click", async () => {
       
     <div class="relative min-h-screen flex flex-col md:flex-row items-start justify-start mt-24 px-4 py-4 text-white rounded-lg md:space-y-6 md:space-x-6">
 
-      <img src="./error1.gif" alt="Error" class="w-80 h-80 md:w-80 md:h-80 object-contain" />
+      <img src="./gif/error1.gif" alt="Error" class="w-80 h-80 md:w-80 md:h-80 object-contain" />
 
       <div class="max-w-md text-center md:text-left space-y-2">
         <h1 class="text-4xl font-extrabold tracking-wide">¡OOPS!</h1>
@@ -236,7 +231,7 @@ async function aplicarFiltros() {
       
     <div class="relative min-h-screen flex flex-col md:flex-row items-start justify-start mt-24 px-4 py-4 text-white rounded-lg md:space-y-6 md:space-x-6">
 
-      <img src="./error2.gif" alt="Error" class="w-64 h-64 md:w-80 md:h-80 object-contain" />
+      <img src="./gif/error2.gif" alt="Error" class="w-64 h-64 md:w-80 md:h-80 object-contain" />
 
       <div class="max-w-md text-center md:text-left space-y-2">
         <h1 class="text-4xl font-extrabold tracking-wide">¡OOPS!</h1>
@@ -268,6 +263,7 @@ function pintarDatos(datos) {
     const isCharacter = item.hasOwnProperty("image");
 
     if (isCharacter) {
+            // Si es un personaje
       const imageUrl = item.image ? item.image : "https://via.placeholder.com/200";
       const name = item.name || "Desconocido";
 
@@ -336,16 +332,14 @@ async function mostrarDetalle(id) {
   $contenedorPaginacion.style.display = "none"; // Oculta la paginacion
   $sectionBuscar.style.display = "none"; // Oculta la barra de busqueda y filtros
   $detallePersonaje.style.display = "block"; // Muestra los detalles del personaje
-
-
-  $detalleContenido.innerHTML = `<div class="loader"></div>`;
+  $detalleContenido.innerHTML = `<div class="loader"></div>`; // Muestra que el contenido se está cargando
 
   try {
     const { data } = await axios.get(`${API_BASE_URL}/character/${id}`);
     const character = data;
 
     // Construir HTML inicial con la info del personaje
-    $detalleContenido.innerHTML = ``;
+    $detalleContenido.innerHTML = ``; // deja de mostrar que está cargando
     $detalleContenido.innerHTML = `
       <div class="text-center ">
       <button id="cerrarDetalle" class="flex flex-col item-start m-2 p-2 text-2xl font-black bg-white text-gray-700 rounded  shadow-sm hover:bg-green-500 hover:text-white focus:outline-none"> ← </button>
@@ -355,7 +349,7 @@ async function mostrarDetalle(id) {
         <p class="text-white font-mono"><strong>Origen:</strong> ${character.origin.name}</p>
         <p class="text-white font-mono"><strong>Ubicación:</strong> ${character.location.name}</p>
         <h3 class="text-white font-mono text-xl font-semibold mt-6">Episodios en los que aparece:</h3>
-        <ul id="lista-episodios" class="mt-2 text-gray-700">Cargando episodios...</ul>
+        <div id="lista-episodios" class="mt-2 text-gray-700">Cargando episodios...</div>
       </div>
     `;
 
@@ -377,20 +371,15 @@ async function mostrarDetalle(id) {
         <p class="text-gray-600">Fecha de emisión: ${episode.air_date}</p>
       `;
     
-      // Agregar listener para redirigir al detalle del episodio
-      card.addEventListener("click", () => {
+      card.addEventListener("click", () => { //Para redirigir al detalle del episodio
         mostrarDetalleEpisodio(episode.id); // Usamos el ID del episodio
             
-    // Mostrar la sección de detalles de epidosio
-    $detalleEpisodio.style.display = "block";
-    // Ocultar la sección de detalles de personaje
-    $detallePersonaje.style.display = "none";
-      });
+    $detalleEpisodio.style.display = "block";  // Mostrar la sección de detalles de epidosio
+    $detallePersonaje.style.display = "none"; // Ocultar la sección de detalles de personaje
+    });
       
-    
       listaEpisodios.appendChild(card);
     });
-
 
     // Agregar evento al botón "Volver"
     document.getElementById("cerrarDetalle").addEventListener("click", () => {
@@ -398,7 +387,6 @@ async function mostrarDetalle(id) {
       $sectionBuscar.style.display = "block"; // Muestra el buscador
       $contenedorResultados.style.display = "flex"; // Muestra los resultados
       $contenedorPaginacion.style.display = "flex"; // Muestra la paginación
-
     });
 
   } catch (error) {
@@ -410,7 +398,7 @@ async function mostrarDetalle(id) {
       
     <div class="relative min-h-screen flex flex-col md:flex-row items-start justify-start mt-24 px-4 py-4 text-white rounded-lg md:space-y-6 md:space-x-6">
 
-      <img src="./error1.gif" alt="Error" class="w-64 h-64 md:w-80 md:h-80 object-contain" />
+      <img src="./gif/error1.gif" alt="Error" class="w-64 h-64 md:w-80 md:h-80 object-contain" />
 
       <div class="max-w-md text-center md:text-left space-y-2">
         <h1 class="text-4xl font-extrabold tracking-wide">¡OOPS!</h1>
@@ -436,11 +424,10 @@ async function mostrarDetalle(id) {
 
 async function mostrarDetalleEpisodio(episodeId) {
   $contenedorResultados.style.display = "none"; // Oculta los resultados
-  $contenedorPaginacion.style.display = "none";
-  $sectionBuscar.style.display = "none";
+  $contenedorPaginacion.style.display = "none"; // Oculta la paginacion
+  $sectionBuscar.style.display = "none"; // Oculta la barra de busqueda y filtros
   $detalleEpisodio.style.display = "block"; // Muestra los detalles
-  $detalleContenidoEpisodio.innerHTML = `<div class="loader"></div>`;
-
+  $detalleContenidoEpisodio.innerHTML = `<div class="loader"></div>`; // Muestra que el contenido se está cargando
 
   try {
     // Obtener los detalles del episodio
@@ -500,7 +487,7 @@ document.querySelectorAll(".personaje-episodio").forEach(personajeCard => {
       
     <div class="relative min-h-screen flex flex-col md:flex-row items-start justify-start mt-24 px-4 py-4 text-white rounded-lg md:space-y-6 md:space-x-6">
 
-      <img src="./error1.gif" alt="Error" class="w-64 h-64 md:w-80 md:h-80 object-contain" />
+      <img src="./gif/error1.gif" alt="Error" class="w-64 h-64 md:w-80 md:h-80 object-contain" />
 
       <div class="max-w-md text-center md:text-left space-y-2">
         <h1 class="text-4xl font-extrabold tracking-wide">¡OOPS!</h1>
@@ -516,7 +503,6 @@ document.querySelectorAll(".personaje-episodio").forEach(personajeCard => {
           <button class="hover:underline eliminar-boton">Contactar con soporte</button>
         </div>
       </div>
-
     </div>`;
   }
 }

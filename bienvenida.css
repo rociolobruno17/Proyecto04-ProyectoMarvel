@@ -1,0 +1,19 @@
+/* ANUMACION BIENVENIDA */
+
+#overlay-gif {
+    position: fixed;         /* que flote sobre todo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;           /* que esté por encima de todo */
+    display: flex;           
+    align-items: center;     /* centra vertical */
+    justify-content: center; /* centra horizontal */
+    pointer-events: none;    /* deja que el usuario haga clic en lo de abajo */
+  }
+  
+  #overlay-gif img {
+    width: 1000px;            /* ajustá el tamaño según quieras */
+    height: auto;
+  }
