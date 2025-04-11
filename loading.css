@@ -1,21 +1,63 @@
 /* HTML: <div class="loader"></div> */
+html {
+  scroll-behavior: smooth;
+}
+
+
+#overlay-gif {
+  position: fixed;         /* que flote sobre todo */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;           /* que esté por encima de todo */
+  display: flex;           
+  align-items: center;     /* centra vertical */
+  justify-content: center; /* centra horizontal */
+  pointer-events: none;    /* deja que el usuario haga clic en lo de abajo */
+}
+
+#overlay-gif img {
+  width: 200px;            /* ajustá el tamaño según quieras */
+  height: auto;
+}
+
 .loader {
-    width: 60px;
-    aspect-ratio: 1;
-    --_g: no-repeat radial-gradient(farthest-side,#000 90%,#0000);
-    background: var(--_g), var(--_g), var(--_g);
-    background-size: 25% 25%;
-    animation: l17 1s infinite;
-  }
-  @keyframes l17{ 
-    0%     {background-position: 0% -100%,50% -100%,100% -100%}
-    16.67% {background-position: 0%   50%,50% -100%,100% -100%}
-    33.33% {background-position: 0%   50%,50%   50%,100% -100%}
-    45%,55%{background-position: 0%   50%,50%   50%,100%   50%}
-    66.67% {background-position: 0%  200%,50%   50%,100%   50%}
-    83.33% {background-position: 0%  200%,50%  200%,100%   50%}
-    100%   {background-position: 0%  200%,50%  200%,100%  200%}
+  width: 60px;
+  aspect-ratio: 1;
+  --_g: no-repeat radial-gradient(farthest-side, #ffffff 90%, hsla(112, 100%, 97%, 0));
+  background: var(--_g), var(--_g), var(--_g);
+  background-size: 25% 25%;
+  animation: l17 1s infinite;
+}
+
+@keyframes l17 {
+  0% {
+    background-position: 0% -100%, 50% -100%, 100% -100%
   }
 
+  16.67% {
+    background-position: 0% 50%, 50% -100%, 100% -100%
+  }
 
-  
+  33.33% {
+    background-position: 0% 50%, 50% 50%, 100% -100%
+  }
+
+  45%,
+  55% {
+    background-position: 0% 50%, 50% 50%, 100% 50%
+  }
+
+  66.67% {
+    background-position: 0% 200%, 50% 50%, 100% 50%
+  }
+
+  83.33% {
+    background-position: 0% 200%, 50% 200%, 100% 50%
+  }
+
+  100% {
+    background-position: 0% 200%, 50% 200%, 100% 200%
+  }
+}

@@ -28,31 +28,51 @@ let paginaActual = 1;
 let filtroActual = "character"; // Por defecto, busca personajes
 
 
+
+////////////////////////////////////////////// animacion de bienvenida ///////////////////////
+setTimeout(() => {
+  const gif = document.getElementById("overlay-gif");
+  if (gif) gif.style.display = "none";
+}, 20000); // 3 segundos
+
 ////////////////////////////////////////////// Carga inicial con personajes aleatorios ///////////////////////
 
 async function mostrarPersonajesAleatorios() {
   $contenedorResultados.innerHTML = `<div class="loader"></div>`;
 
   try {
-    const response = await axios.get(`${API_BASE_URL}/character`);
-    const personajes = response.data.results;
+    const { data } = await axios.get(`${API_BASE_URL}/character`);
+    const personajes = data.results;
     $contenedorResultados.innerHTML = "";
     pintarDatos(personajes);
   } catch (error) {
     $contenedorResultados.innerHTML = ``,
     $contenedorResultados.innerHTML = `
-      <div class="flex items-center justify-center gap-4 p-6">
-        <img src="./error.png" alt="Error" class="w-96 h-96 object-contain">
-        <div>
-          <h1 class="text-6xl font-black text-gray-800 xl:text-[40px]">OOPS...</h1>
-          <p class="text-3xl font-bold text-gray-800 xl:text-[20px]">Parece que falta algo :(</p>
-          <p class="text-xl font-light text-gray-800 xl:text-[20px]">Es posible que haya escrito mal la búsqueda o que la página se haya movido</p>
-          <div class="flex gap-4 mt-4 text-xs text-gray-800 w-96 justify-start">
-            <button id="volverInicio" class="px-6 py-2 border border-green-500 text-green-500 font-semibold rounded-lg shadow-sm hover:bg-green-500 hover:text-white focus:outline-none transition">Volver al inicio</button>
-            <button class="hover:underline eliminar-boton">Contactar con soporte</button>
-          </div>
+
+      <span class="absolute text-[80px] sm:text-[120px] md:text-[180px] font-black text-white opacity-10 whitespace-nowrap select-none pointer-events-none z-0">
+        404 ERROR
+      </span> 
+      
+    <div class="relative min-h-screen flex flex-col md:flex-row items-start justify-start mt-24 px-4 py-4 text-white rounded-lg md:space-y-6 md:space-x-6">
+
+      <img src="./error2.gif" alt="Error" class="w-64 h-64 md:w-80 md:h-80 object-contain" />
+
+      <div class="max-w-md text-center md:text-left space-y-2">
+        <h1 class="text-4xl font-extrabold tracking-wide">¡OOPS!</h1>
+        <p class="text-2xl font-semibold">Parece que algo salió mal :(</p>
+        <p class="text-base md:text-lg font-light">
+          Es posible que hayas escrito mal la búsqueda o que la página ya no exista.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-2 text-sm">
+          <button id="volverInicio" class="px-5 py-2 border border-white text-white font-medium rounded-md hover:bg-white hover:text-red-800 transition">
+            Volver al inicio
+          </button>
+          <button class="hover:underline eliminar-boton">Contactar con soporte</button>
         </div>
-      </div>`;
+      </div>
+
+    </div>`;
   }
 }
 document.addEventListener("DOMContentLoaded", async () => {
@@ -94,24 +114,37 @@ async function obtenerDatos(page) {
   let url =  `${API_BASE_URL}/${filtroActual}?page=${page}`;
 
   try {
-    const response = await axios.get(url);
-    const datos = response.data.results;
+    const { data } = await axios.get(url);
+    const datos = data.results;
     pintarDatos(datos);
   } catch (error) {
     $contenedorResultados.innerHTML = ``,
     $contenedorResultados.innerHTML = `
-      <div class="flex items-center justify-center gap-4 p-6">
-        <img src="./error.png" alt="Error" class="w-96 h-96 object-contain">
-        <div>
-          <h1 class="text-6xl font-black text-gray-800 xl:text-[40px]">OOPS...</h1>
-          <p class="text-3xl font-bold text-gray-800 xl:text-[20px]">Parece que falta algo :(</p>
-          <p class="text-xl font-light text-gray-800 xl:text-[20px]">Es posible que haya escrito mal la búsqueda o que la página se haya movido</p>
-          <div class="flex gap-4 mt-4 text-xs text-gray-800 w-96 justify-start">
-            <button id="volverInicio" class="px-6 py-2 border border-green-500 text-green-500 font-semibold rounded-lg shadow-sm hover:bg-green-500 hover:text-white focus:outline-none transition">Volver al inicio</button>
-            <button class="hover:underline eliminar-boton">Contactar con soporte</button>
-          </div>
+
+      <span class="absolute text-[80px] sm:text-[120px] md:text-[180px] font-black text-white opacity-10 whitespace-nowrap select-none pointer-events-none z-0">
+        404 ERROR
+      </span> 
+      
+    <div class="relative min-h-screen flex flex-col md:flex-row items-start justify-start mt-24 px-4 py-4 text-white rounded-lg md:space-y-6 md:space-x-6">
+
+      <img src="./error2.gif" alt="Error" class="w-64 h-64 md:w-80 md:h-80 object-contain" />
+
+      <div class="max-w-md text-center md:text-left space-y-2">
+        <h1 class="text-4xl font-extrabold tracking-wide">¡OOPS!</h1>
+        <p class="text-2xl font-semibold">Parece que algo salió mal :(</p>
+        <p class="text-base md:text-lg font-light">
+          Es posible que hayas escrito mal la búsqueda o que la página ya no exista.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-2 text-sm">
+          <button id="volverInicio" class="px-5 py-2 border border-white text-white font-medium rounded-md hover:bg-white hover:text-red-800 transition">
+            Volver al inicio
+          </button>
+          <button class="hover:underline eliminar-boton">Contactar con soporte</button>
         </div>
-      </div>`;
+      </div>
+
+    </div>`;
     
   }
 }
@@ -122,6 +155,7 @@ $botonBuscar.addEventListener("click", async () => {
   $contenedorResultados.innerHTML = `<div class="loader"></div>`
 
   const textoBuscar = $inputTextoBuscar.value.trim();
+  $inputTextoBuscar.value = "";
   const tipoBusqueda = $selectFiltroTipo.value;
   let url = "";
 
@@ -133,8 +167,8 @@ $botonBuscar.addEventListener("click", async () => {
 
 
   try {
-    const response = await axios.get(url);
-    const resultados = response.data.results;
+    const { data } = await axios.get(url);
+    const resultados = data.results;
 
     $contenedorResultados.innerHTML = ``
 
@@ -145,19 +179,32 @@ $botonBuscar.addEventListener("click", async () => {
     $sectionBuscar.style.display = "block"; // Muestra el buscador
     $contenedorPaginacion.style.display = "none"; // Muestra la paginación
     $contenedorResultados.innerHTML = `
-      <div class="flex items-center justify-center gap-4 p-6">
-        <img src="./error2.gif" alt="Error" class="w-96 h-96 object-contain">
-        <div>
-          <h1 class="text-6xl font-black text-gray-800 xl:text-[40px]">OOPS...</h1>
-          <p class="text-3xl font-bold text-gray-800 xl:text-[20px]">Parece que falta algo :(</p>
-          <p class="text-xl font-light text-gray-800 xl:text-[20px]">Es posible que haya escrito mal la búsqueda o que la página se haya movido</p>
-          <div class="flex gap-4 mt-4 text-xs text-gray-800 w-96 justify-start">
-            <button id="volverInicio" class="px-6 py-2 border border-green-500 text-green-500 font-semibold rounded-lg shadow-sm hover:bg-green-500 hover:text-white focus:outline-none transition">Volver al inicio</button>
-            <button class="hover:underline eliminar-boton">Contactar con soporte</button>
-          </div>
+
+      <span class="absolute text-[80px] sm:text-[120px] md:text-[180px] font-black text-white opacity-10 whitespace-nowrap select-none pointer-events-none z-0">
+        404 ERROR
+      </span> 
+      
+    <div class="relative min-h-screen flex flex-col md:flex-row items-start justify-start mt-24 px-4 py-4 text-white rounded-lg md:space-y-6 md:space-x-6">
+
+      <img src="./error1.gif" alt="Error" class="w-80 h-80 md:w-80 md:h-80 object-contain" />
+
+      <div class="max-w-md text-center md:text-left space-y-2">
+        <h1 class="text-4xl font-extrabold tracking-wide">¡OOPS!</h1>
+        <p class="text-2xl font-semibold">Parece que algo salió mal :(</p>
+        <p class="text-base md:text-lg font-light">
+          Es posible que hayas escrito mal la búsqueda o que la página ya no exista.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-2 text-sm">
+          <button id="volverInicio" class="px-5 py-2 border border-white text-white font-medium rounded-md hover:bg-white hover:text-red-800 transition">
+            Volver al inicio
+          </button>
+          <button class="hover:underline eliminar-boton">Contactar con soporte</button>
         </div>
-      </div>`;
-  }
+      </div>
+
+    </div>`;
+}
 });
 
 ////////////////////////////////////////////// Filtrar personajes por status y gender ///////////////////////
@@ -182,20 +229,35 @@ async function aplicarFiltros() {
     console.error("Error en la búsqueda:", error);
     $contenedorResultados.innerHTML = ``,
     $contenedorResultados.innerHTML = `
-      <div class="flex items-center justify-center gap-4 p-6">
-        <img src="./error.png" alt="Error" class="w-96 h-96 object-contain">
-        <div>
-          <h1 class="text-6xl font-black text-gray-800 xl:text-[40px]">OOPS...</h1>
-          <p class="text-3xl font-bold text-gray-800 xl:text-[20px]">Parece que falta algo :(</p>
-          <p class="text-xl font-light text-gray-800 xl:text-[20px]">Es posible que haya escrito mal la búsqueda o que la página se haya movido</p>
-          <div class="flex gap-4 mt-4 text-xs text-gray-800 w-96 justify-start">
-            <button id="volverInicio" class="px-6 py-2 border border-green-500 text-green-500 font-semibold rounded-lg shadow-sm hover:bg-green-500 hover:text-white focus:outline-none transition">Volver al inicio</button>
-            <button class="hover:underline eliminar-boton">Contactar con soporte</button>
-          </div>
+
+      <span class="absolute text-[80px] sm:text-[120px] md:text-[180px] font-black text-white opacity-10 whitespace-nowrap select-none pointer-events-none z-0">
+        404 ERROR
+      </span> 
+      
+    <div class="relative min-h-screen flex flex-col md:flex-row items-start justify-start mt-24 px-4 py-4 text-white rounded-lg md:space-y-6 md:space-x-6">
+
+      <img src="./error2.gif" alt="Error" class="w-64 h-64 md:w-80 md:h-80 object-contain" />
+
+      <div class="max-w-md text-center md:text-left space-y-2">
+        <h1 class="text-4xl font-extrabold tracking-wide">¡OOPS!</h1>
+        <p class="text-2xl font-semibold">Parece que algo salió mal :(</p>
+        <p class="text-base md:text-lg font-light">
+          Es posible que hayas escrito mal la búsqueda o que la página ya no exista.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-2 text-sm">
+          <button id="volverInicio" class="px-5 py-2 border border-white text-white font-medium rounded-md hover:bg-white hover:text-red-800 transition">
+            Volver al inicio
+          </button>
+          <button class="hover:underline eliminar-boton">Contactar con soporte</button>
         </div>
-      </div>`;
+      </div>
+
+    </div>`;
   }
 }
+
+
 
 
 ////////////////////////////////////////////// Función para pintar los datos diferenciando entre episodio y personaje ///////////////////////
@@ -212,7 +274,7 @@ function pintarDatos(datos) {
       $contenedorResultados.innerHTML += `
       <div class="relative m-4 pb-4  bg-white rounded-lg shadow-lg cursor-pointer character-card transform transition-transform duration-300 hover:scale-110" data-id="${item.id}">
         <img src="${imageUrl}" alt="${name}" class="w-full h-96 object-cover rounded-lg">
-        <h3 class="mt-4 pl-4 text-3xl font-bold text-gray-800">${name}</h3>
+        <h3 class="font-mono mt-4 pl-4 text-3xl font-bold text-gray-800">${name}</h3>
       </div>
     `;
 
@@ -224,7 +286,7 @@ function pintarDatos(datos) {
 
       $contenedorResultados.innerHTML += `
       <div class="m-4 p-4 bg-white rounded-lg shadow-md cursor-pointer episode-card transform transition duration-300 hover:scale-105" data-id="${item.id}">
-        <h3 class="text-4xl font-bold text-gray-800">${name}</h3>
+        <h3 class="font-mono text-4xl font-bold text-gray-800">${name}</h3>
         <p class="text-gray-600">Episodio: ${episodeCode}</p>
         <p class="text-gray-600">Fecha de emisión: ${airDate}</p>
       </div>`;
@@ -269,17 +331,21 @@ $selectFiltroTipo.addEventListener("change", () => {
 ////////////////////////////////////////////////// Mostrar detalle de personajes /////////////////////////
 
 async function mostrarDetalle(id) {
+
   $contenedorResultados.style.display = "none"; // Oculta los resultados
   $contenedorPaginacion.style.display = "none"; // Oculta la paginacion
   $sectionBuscar.style.display = "none"; // Oculta la barra de busqueda y filtros
-  // $imagenPrincipal.style.display = "none"; // Oculta la imagen
   $detallePersonaje.style.display = "block"; // Muestra los detalles del personaje
 
+
+  $detalleContenido.innerHTML = `<div class="loader"></div>`;
+
   try {
-    const response = await axios.get(`${API_BASE_URL}/character/${id}`);
-    const character = response.data;
+    const { data } = await axios.get(`${API_BASE_URL}/character/${id}`);
+    const character = data;
 
     // Construir HTML inicial con la info del personaje
+    $detalleContenido.innerHTML = ``;
     $detalleContenido.innerHTML = `
       <div class="text-center ">
       <button id="cerrarDetalle" class="flex flex-col item-start m-2 p-2 text-2xl font-black bg-white text-gray-700 rounded  shadow-sm hover:bg-green-500 hover:text-white focus:outline-none"> ← </button>
@@ -306,7 +372,7 @@ async function mostrarDetalle(id) {
       const card = document.createElement("div");
       card.className = "cursor-pointer m-8 p-4 bg-white rounded-lg shadow-md transform transition duration-300 hover:scale-105";
       card.innerHTML = `
-        <h4 class="text-lg font-semibold text-gray-800">${episode.name}</h4>
+        <h4 class="font-mono text-lg font-semibold text-gray-800">${episode.name}</h4>
         <p class="text-gray-600">Episodio: ${episode.episode}</p>
         <p class="text-gray-600">Fecha de emisión: ${episode.air_date}</p>
       `;
@@ -331,13 +397,37 @@ async function mostrarDetalle(id) {
       $detallePersonaje.style.display = "none"; // Oculta detalles
       $sectionBuscar.style.display = "block"; // Muestra el buscador
       $contenedorResultados.style.display = "flex"; // Muestra los resultados
-      $contenedorPaginacion.style.display = "block"; // Muestra la paginación
+      $contenedorPaginacion.style.display = "flex"; // Muestra la paginación
 
     });
 
   } catch (error) {
-    console.error("Error al obtener detalles del personaje:", error);
-    document.getElementById("lista-episodios").innerHTML = "No se pudieron cargar los episodios.";
+    $contenedorResultados.innerHTML = `
+
+      <span class="absolute text-[80px] sm:text-[120px] md:text-[180px] font-black text-white opacity-10 whitespace-nowrap select-none pointer-events-none z-0">
+        404 ERROR
+      </span> 
+      
+    <div class="relative min-h-screen flex flex-col md:flex-row items-start justify-start mt-24 px-4 py-4 text-white rounded-lg md:space-y-6 md:space-x-6">
+
+      <img src="./error1.gif" alt="Error" class="w-64 h-64 md:w-80 md:h-80 object-contain" />
+
+      <div class="max-w-md text-center md:text-left space-y-2">
+        <h1 class="text-4xl font-extrabold tracking-wide">¡OOPS!</h1>
+        <p class="text-2xl font-semibold">Parece que algo salió mal :(</p>
+        <p class="text-base md:text-lg font-light">
+          Es posible que hayas escrito mal la búsqueda o que la página ya no exista.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-2 text-sm">
+          <button id="volverInicio" class="px-5 py-2 border border-white text-white font-medium rounded-md hover:bg-white hover:text-red-800 transition">
+            Volver al inicio
+          </button>
+          <button class="hover:underline eliminar-boton">Contactar con soporte</button>
+        </div>
+      </div>
+
+    </div>`;
   }
 }
 
@@ -349,11 +439,13 @@ async function mostrarDetalleEpisodio(episodeId) {
   $contenedorPaginacion.style.display = "none";
   $sectionBuscar.style.display = "none";
   $detalleEpisodio.style.display = "block"; // Muestra los detalles
+  $detalleContenidoEpisodio.innerHTML = `<div class="loader"></div>`;
+
 
   try {
     // Obtener los detalles del episodio
-    const response = await axios.get(`${API_BASE_URL}/episode/${episodeId}`);
-    const episode = response.data;
+    const { data } = await axios.get(`${API_BASE_URL}/episode/${episodeId}`);
+    const episode = data;
 
     // Obtener los personajes del episodio
     const characters = await Promise.all(
@@ -361,6 +453,7 @@ async function mostrarDetalleEpisodio(episodeId) {
     );
 
     // Construir HTML con detalles del episodio y personajes
+    $detalleContenidoEpisodio.innerHTML = ``;
     $detalleContenidoEpisodio.innerHTML = ` 
       <div class="text-center ">
               <button id="cerrarDetalleEpisodio" class="flex flex-col item-start m-2 p-2 text-2xl font-black bg-white text-gray-700 rounded  shadow-sm hover:bg-green-500 hover:text-white focus:outline-none"> ← </button>
@@ -395,40 +488,39 @@ document.querySelectorAll(".personaje-episodio").forEach(personajeCard => {
          $detalleEpisodio.style.display = "none";
          $sectionBuscar.style.display = "block";
          $contenedorResultados.style.display = "flex";
-         $contenedorPaginacion.style.display = "block";
+         $contenedorPaginacion.style.display = "flex";
      }
 });
   } catch (error) {
-    console.error("Error al obtener detalles del episodio:", error);
-    $detalleContenidoEpisodio.innerHTML = `
-    <div class="flex items-center justify-center gap-4 p-6">
-      <img src="./error.png" alt="Error" class="w-96 h-96 object-contain">
-      <div>
-        <h1 class="text-6xl font-black text-gray-800 xl:text-[40px]">OOPS...</h1>
-        <p class="text-3xl font-bold text-gray-800 xl:text-[20px]">Parece que falta algo :(</p>
-        <p class="text-xl font-light text-gray-800 xl:text-[20px]">Es posible que haya escrito mal la búsqueda o que la página se haya movido</p>
-        <div class="flex gap-4 mt-4 text-xs text-gray-800 w-96 justify-start">
-          <button id="volverInicio" class="px-6 py-2 border border-green-500 text-green-500 font-semibold rounded-lg shadow-sm hover:bg-green-500 hover:text-white focus:outline-none transition">Volver al inicio</button>
+    $contenedorResultados.innerHTML = `
+
+      <span class="absolute text-[80px] sm:text-[120px] md:text-[180px] font-black text-white opacity-10 whitespace-nowrap select-none pointer-events-none z-0">
+        404 ERROR
+      </span> 
+      
+    <div class="relative min-h-screen flex flex-col md:flex-row items-start justify-start mt-24 px-4 py-4 text-white rounded-lg md:space-y-6 md:space-x-6">
+
+      <img src="./error1.gif" alt="Error" class="w-64 h-64 md:w-80 md:h-80 object-contain" />
+
+      <div class="max-w-md text-center md:text-left space-y-2">
+        <h1 class="text-4xl font-extrabold tracking-wide">¡OOPS!</h1>
+        <p class="text-2xl font-semibold">Parece que algo salió mal :(</p>
+        <p class="text-base md:text-lg font-light">
+          Es posible que hayas escrito mal la búsqueda o que la página ya no exista.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-2 text-sm">
+          <button id="volverInicio" class="px-5 py-2 border border-white text-white font-medium rounded-md hover:bg-white hover:text-red-800 transition">
+            Volver al inicio
+          </button>
           <button class="hover:underline eliminar-boton">Contactar con soporte</button>
         </div>
       </div>
+
     </div>`;
   }
 }
 
-
-
-
-// // Cargar datos al inicio
-// window.onload = () => {
-//   obtenerDatos(paginaActual);
-
-  
-// };
-
 window.onload = async () => {
-  
   await obtenerDatos(paginaActual);
-
-
 };
